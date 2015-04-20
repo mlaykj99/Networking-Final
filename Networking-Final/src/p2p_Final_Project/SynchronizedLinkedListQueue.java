@@ -40,52 +40,17 @@ public class SynchronizedLinkedListQueue extends LinkedListQueue
 
 	  */
 
-	 public SynchronizedLinkedListQueue()
-	 {
-	   //Initializes variables
-	   super();
-	 }
+	 public SynchronizedLinkedListQueue() { super(); }
 
-	 public synchronized void removeAll()
-	 {
-	   //sets the rear and front to null
-	   super.removeAll();
-	 }
+	 public synchronized void removeAll() { super.removeAll(); }
 
-	 public synchronized boolean isEmpty(){return super.isEmpty();}
+	 public synchronized boolean isEmpty() { return super.isEmpty(); }
 
-	 public synchronized Object peek()
-	 {
-	   Object value;
-	  
-	   //returns the front's data
-	   if(this.isEmpty()){value = null;}
-	   value = super.peek();
-	  
-	   return value;
-	 }
+	 public synchronized Object peek() { return super.peek(); }
 
-	 public synchronized Object deQueue()
-	 {
-	   Object value;
-		 
-	  
-	   //removes the front node and returns it's data
-	   if(this.isEmpty()){value = null;}
-	   value = super.deQueue();
-	  
-	   return value;
-	 }
+	 public synchronized Object deQueue() { return super.deQueue(); }
 
-	 public synchronized void enQueue(Object data)
-	 {
-	   //adds a node to the end of the queue
-	   super.enQueue(data);
-	 }
+	 public synchronized void enQueue(Object data) { super.enQueue(data); }
 
-	 public synchronized void enQueue(LinkedListQueue queue)
-	 {
-	   //adds a queue to the end of the queue
-	   super.enQueue(queue);
-	 }
+	 public synchronized void enQueue(LinkedListQueue queue) { super.enQueue(queue); }
 }
