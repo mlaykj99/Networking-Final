@@ -1,5 +1,6 @@
 package p2p_Final_Project;
 
+import java.net.DatagramPacket;
 import java.security.SecureRandom;
 
 public class ID
@@ -83,9 +84,17 @@ public class ID
 	private static ID zeroID;
 	private byte[] id;
 	
-	
 	private ID()
 	{
+		//TEMP
+		idQueue = new LinkedListQueue();
+		idLengthInBytes = 16;
+		maxQueueLength = 10;
+		queueLength = 0;
+		secureRandom = new SecureRandom();
+		zeroID = createZeroID();
+		//TEMP
+		
 		byte[] newID;
 		
 		//Set the size of the array to the length of each ID
@@ -93,7 +102,7 @@ public class ID
 		//Then make sure there is an ID in the queue to be used
 		if(getQueue().isEmpty()) { generateID(); }
 		
-		//TODO: set up byte array based on queue ID
+		newID = (byte[]) getQueue().deQueue();
 		
 		this.id = newID.clone();
 	}
@@ -106,9 +115,13 @@ public class ID
 		this.id = byteArray.clone();
 	}
 	
+	public ID(DatagramPacket packet, int startingByte){} //TODO: Finish this
+	
+	public ID(String hexString){/*Not Used as of Now*/}
+	
 	public static ID idFactory()
 	{
-		
+		return new ID();
 	}
 	
 	private static ID createZeroID() { return new ID( new byte[getIDLength()] ); }
@@ -117,9 +130,32 @@ public class ID
 	{
 		if(getQueueLength() < getMaxQueueLength())
 		{
-			//TODO: Check the secureRandom!
-			getQueue().enQueue(secureRandom.next(getIDLength()));
+			byte[] newRandom;
+			
+			newRandom = new byte[getIDLength()];
+			
+			//populate bytes
+			secureRandom.nextBytes(newRandom);
+			
+			//add to queue
+			getQueue().enQueue(newRandom);
 		}
+	}
+	
+	public String getAsHex()
+	{
+		char[] hexChars = "0123456789ABCDEF".toCharArray(); //All hex characters
+		char[] hexString = new char[id.length * 2]; //Each byte is 2 hex chars
+		int hold;
+		
+		for(int i = 0; i < id.length; i++)
+		{
+			hold = id[i] & 0xFF;
+			hexString[i*2] = hexChars[hold >>> 4];
+			hexString[i*2+1] = hexChars[hold & 0x0F];
+		}
+		
+		return new String(hexString);
 	}
 	
 	public static int getIDLength() { return idLengthInBytes; }
@@ -148,9 +184,58 @@ public class ID
 	
 	public byte[] getBytes() { return this.id.clone(); }
 	
-	public boolean equals(Object other) {}
+	public boolean equals(Object other)
+	{
+		boolean result;
+		
+		//check if it is the same reference
+		result = super.equals(other);
+		
+		//Checks 
+		for(int i = 0; i < id.length; i++)
+		{
+			if(id[i] == ((ID)other).getBytes()[i])
+			{
+				result = result && true;
+			}
+		}
+		
+		return result;
+	}
 	
-	public int hashCode() {}
+	public int hashCode()
+	{
+		String byteString;
+		
+		byteString = "";
+		for(int i = 0; i < id.length; i++)
+		{
+			byteString = byteString + id[i]; //Turn array into string
+		}
+		
+		//Use strings hash function to get a hash code back
+		return byteString.hashCode();
+	}
 	
-	public String toString() {}
+	public boolean isZero()
+	{
+		boolean result;
+		
+		result = true;
+		for(int i = 0; i < id.length; i++)
+		{
+			if(id[i] != 0)
+			{
+				result = false;	//not a 0
+				i = id.length; 	//exit loop
+			}
+		}
+		
+		return result;
+	}
+	
+	public String toString()
+	{
+		return getAsHex();
+	}
 }
