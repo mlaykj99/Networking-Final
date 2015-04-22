@@ -23,10 +23,11 @@ public class ResourceManager {
 	}
 	public static void loadResourcesFrom(File file)
 	{
-		
+		//TODO ask jarvis
 	}
 	public Resource[] getResourcesThatMatch(String searchString)
 	{
+		//TODO ask jarvis
 		return null;
 	}
 }
