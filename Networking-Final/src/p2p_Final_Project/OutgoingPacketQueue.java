@@ -1,6 +1,6 @@
 package p2p_Final_Project;
 
-public class OutgoingPacketQueue extends SynchronizedLinkedListQueue
+public class OutgoingPacketQueue extends SynchronizedPacketQueue
 {
 	
 }
