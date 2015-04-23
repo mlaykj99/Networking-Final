@@ -14,17 +14,14 @@ public class DatagramReceiver extends DatagramSenderReceiver
 	
 	public void action(DatagramSocket datagramSocket, SynchronizedPacketQueue queue)
 	{
-		if(!queue.isEmpty())
+		try
 		{
-			try
-			{
-				datagramSocket.receive((DatagramPacket) queue.deQueue());
-				//Thread.sleep(100);
-			} 
-			catch (Exception e)
-			{
-				e.printStackTrace();
-			}
+			datagramSocket.receive((DatagramPacket) queue.deQueue());
+			//Thread.sleep(100);
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 }
