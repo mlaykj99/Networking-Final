@@ -10,7 +10,9 @@ public class TesterForMethods
 		//Hex test
 		System.out.println("Hex test: " + id1.getAsHex());
 		System.out.println("Hex test: " + id2.getAsHex());
-		System.out.println("Hex test: " + id1.toString());
+		
+		//To String
+		System.out.println("To String: " + id1.toString());
 		
 		//Equals test
 		System.out.println(id1.equals(id2));

@@ -6,24 +6,30 @@ public class TimeToLive
 	
 	public TimeToLive(int timeToLive)
 	{
+		if( timeToLive < 1 ) { throw new IllegalArgumentException("TimeToLive.constructor: timeToLive is less then 1!"); }
+		
 		this.timeToLive = timeToLive;
 	}
 	
 	public TimeToLive(byte[] byteArray)
 	{
+		if( byteArray == null ) { throw new IllegalArgumentException("TimeToLive.constructor: byteArray is null!"); }
+		if( byteArray.length != 4 ) { throw new IllegalArgumentException("TimeToLive.constructor: byteArray is not size 4!"); }
+		
 		//timeToLive = byteArray[3] & 0xFF | (byteArray[2] & 0xFF) << 8 | (byteArray[1] & 0xFF) << 16 | (byteArray[0] & 0xFF) << 24;	
 		for (int i = 0; i < byteArray.length; i++) {
 		    timeToLive = timeToLive | (byteArray[i - (byteArray.length-1)] & 0xFF) << (i * 8);
 		}
 	}
 	
-	public static int getLengthInBytes()
-	{
-		return 4;
-	}
-	
+	public static int getLengthInBytes() { return 4; }
 	public int get() { return timeToLive; }
-	public void set(int timeToLive) { this.timeToLive = timeToLive; }
+	
+	public void set(int timeToLive)
+	{ 
+		if( timeToLive < 1 ) { throw new IllegalArgumentException("TimeToLive.set: timeToLive is less then 1!"); }
+		this.timeToLive = timeToLive; 
+	}
 	
 	public byte[] toByteArray()
 	{

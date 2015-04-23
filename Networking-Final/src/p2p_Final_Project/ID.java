@@ -76,32 +76,21 @@ public class ID
 
 	  */
 	
-	private static int idLengthInBytes;
-	private static LinkedListQueue idQueue;
-	private static int maxQueueLength;
-	private static int queueLength;
-	private static SecureRandom secureRandom;
-	private static ID zeroID;
+	private static int idLengthInBytes = 16;
+	private static LinkedListQueue idQueue = new LinkedListQueue();
+	private static int maxQueueLength = 100;
+	private static int queueLength = 0;
+	private static SecureRandom secureRandom = new SecureRandom();
+	private static ID zeroID = createZeroID();
 	private byte[] id;
 	
 	private ID()
 	{
-		//TEMP
-		idQueue = new LinkedListQueue();
-		idLengthInBytes = 16;
-		maxQueueLength = 10;
-		queueLength = 0;
-		secureRandom = new SecureRandom();
-		zeroID = createZeroID();
-		//TEMP
-		
 		byte[] newID;
 		
 		//Set the size of the array to the length of each ID
 		newID = new byte[getIDLength()];
-		//Then make sure there is an ID in the queue to be used
-		if(getQueue().isEmpty()) { generateID(); }
-		
+		//Get the bytes from the queue
 		newID = (byte[]) getQueue().deQueue();
 		
 		this.id = newID.clone();
@@ -115,13 +104,35 @@ public class ID
 		this.id = byteArray.clone();
 	}
 	
-	public ID(DatagramPacket packet, int startingByte){} //TODO: Finish this
+	public ID(DatagramPacket packet, int startingByte)
+	{
+		if( packet == null ) { throw new IllegalArgumentException("ID.constructor: Datagram packet is null!"); }
+		if( startingByte < 0 ) { throw new IllegalArgumentException("ID.constructor: startingByte is less than 0!"); }
+		if( startingByte > packet.getData().length ) { throw new IllegalArgumentException("ID.constructor: startingByte is more then packet's length in bytes!"); }
+		
+		byte[] data;
+		
+		data = packet.getData();
+		
+		System.arraycopy(data, startingByte, this.id, 0, getIDLength());
+	}
 	
 	public ID(String hexString){/*Not Used as of Now*/}
 	
 	public static ID idFactory()
 	{
-		return new ID();
+		ID newID;
+		
+		if(getQueue().isEmpty())
+		{	
+			newID = new ID(getSecureRandom());
+		}
+		else
+		{
+			newID = new ID();
+		}
+		
+		return newID;
 	}
 	
 	private static ID createZeroID() { return new ID( new byte[getIDLength()] ); }
@@ -129,16 +140,9 @@ public class ID
 	public static void generateID()
 	{
 		if(getQueueLength() < getMaxQueueLength())
-		{
-			byte[] newRandom;
-			
-			newRandom = new byte[getIDLength()];
-			
-			//populate bytes
-			secureRandom.nextBytes(newRandom);
-			
+		{	
 			//add to queue
-			getQueue().enQueue(newRandom);
+			getQueue().enQueue(getSecureRandom());
 		}
 	}
 	
@@ -191,7 +195,7 @@ public class ID
 		//check if it is the same reference
 		result = super.equals(other);
 		
-		//Checks 
+		//Checks for same byte values
 		for(int i = 0; i < id.length; i++)
 		{
 			if(id[i] == ((ID)other).getBytes()[i])
@@ -236,6 +240,40 @@ public class ID
 	
 	public String toString()
 	{
-		return getAsHex();
+		String string;
+		
+		//Creates a string of comma separated numbers
+		//corresponding to the bytes in the array
+		string = "";
+		for(int i = 0; i < id.length; i++)
+		{
+			string = string + id[i] + ", ";
+		}
+		
+		return string.substring(0,string.length()-2);
+	}
+	
+	private static byte[] getSecureRandom()
+	{
+		byte[] newRandom;
+		int sum;
+		
+		newRandom = new byte[getIDLength()];
+		sum = 0;
+		
+		//Re-run the random if it comes out 0
+		while(sum == 0)
+		{
+			//populate bytes
+			secureRandom.nextBytes(newRandom);
+			
+			//Check sum of array
+			for(int i = 0; i < newRandom.length; i++)
+			{
+				sum = sum + newRandom[i];
+			}
+		}
+		
+		return newRandom;
 	}
 }
