@@ -1,6 +1,6 @@
 package p2p_Final_Project;
 
-public abstract class Command<T> implements ActionInterface, Comparable<T>, Cloneable {
+public abstract class Command implements ActionInterface, Comparable<Command>, Cloneable {
 	
 	private String commandName;
 	private String description;
@@ -10,33 +10,30 @@ public abstract class Command<T> implements ActionInterface, Comparable<T>, Clon
 	{
 		this.commandName = commandName;
 		this.description = description;
-		//What does parameters do TODO
 	}
 	
 	public Command()
 	{
-		//Figure out what to do here
+		
 	}
-	public Object clone()
+	public Object clone() throws CloneNotSupportedException
 	{
-		//TODO
-		//new Command(this.commandName,this.description);
-		return null;
+		return super.clone();
 	}
 	public boolean equals(String text)
 	{
-		//TODO
+		//not needed for current implementation
 		return false;
 	}
 	public boolean equals(Object other)
 	{
-		//TODO
+		//not needed for current implementation
 		return false;
 	}
 	
 	public int hashCode()
 	{
-		//TODO
+		//not needed for current implementation
 		return 0;
 	}
 	
@@ -64,7 +61,7 @@ public abstract class Command<T> implements ActionInterface, Comparable<T>, Clon
 	}
 
 	public int compareTo(Command other) {
-		// TODO Auto-generated method stub
+		//not needed for current implementation
 		return 0;
 	}
 

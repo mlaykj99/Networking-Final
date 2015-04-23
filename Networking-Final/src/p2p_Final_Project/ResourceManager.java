@@ -9,7 +9,7 @@ public class ResourceManager {
 	private Map<ID,Resource> resourceDirectory;
 	private static ResourceManager resourceManager = new ResourceManager();
 	
-	public ResourceManager()
+	private ResourceManager()
 	{
 		this.resourceDirectory = new Hashtable<ID,Resource>();
 	}
