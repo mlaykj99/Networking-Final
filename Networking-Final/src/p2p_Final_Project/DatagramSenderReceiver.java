@@ -25,23 +25,28 @@ public abstract class DatagramSenderReceiver implements Runnable
 	
 	public int getPacketSize() { return this.packetSize; }
 	
-	public void stop()
-	{ 
-		
-	}
+	public void stop() { this.done.set(true); }
 	
 	public boolean isStopped() { return this.done.get(); }
 	
-	public void startAsThread()
-	{
-		
-	}
+	public void startAsThread() { new Thread(this).start(); }
 	
 	@Override
 	public void run()
 	{
-		
+		while(!this.done.get())
+		{
+			try
+			{
+				action(this.datagramSocket, this.queue);
+				Thread.sleep(1000);
+			} 
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 	
-	public abstract SynchronizedPacketQueue action(DatagramSocket datagramSocket, SynchronizedPacketQueue queue);
+	public abstract void action(DatagramSocket datagramSocket, SynchronizedPacketQueue queue);
 }
