@@ -1,18 +1,30 @@
 package p2p_Final_Project;
 
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
 
 public class DatagramReceiver extends DatagramSenderReceiver
 {
-	public DatagramReceiver(InetSocketAddress inetSocketAddress, IncomingPacketQueue queue, int packetSize) throws SocketException
+	public DatagramReceiver(DatagramSocket datagramSocket, IncomingPacketQueue queue, int packetSize) throws SocketException
 	{
-		super(inetSocketAddress, queue, packetSize);
+		super(datagramSocket, queue, packetSize);
 	}
 	
-	public SynchronizedPacketQueue action(DatagramSocket datagramSocket, SynchronizedPacketQueue queue)
+	public void action(DatagramSocket datagramSocket, SynchronizedPacketQueue queue)
 	{
-		return new IncomingPacketQueue();
+		if(!queue.isEmpty())
+		{
+			try
+			{
+				datagramSocket.receive((DatagramPacket) queue.deQueue());
+				//Thread.sleep(100);
+			} 
+			catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
 	}
 }
