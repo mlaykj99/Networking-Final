@@ -8,6 +8,14 @@ public abstract class Command implements ActionInterface, Comparable<Command>, C
 	
 	public Command(String commandName,String description)
 	{
+		if(commandName == null)
+		{
+			throw new IllegalArgumentException("Error commandName in class "+ this.getClass()+ " cannot be null.");
+		}
+		if(description == null)
+		{
+			throw new IllegalArgumentException("Error description in class "+this.getClass()+" cannot be null");
+		}
 		this.commandName = commandName;
 		this.description = description;
 	}

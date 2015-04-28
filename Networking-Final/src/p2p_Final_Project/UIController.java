@@ -2,6 +2,8 @@ package p2p_Final_Project;
 
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.net.SocketException;
+import java.util.Scanner;
 
 public class UIController
 {
@@ -18,20 +20,52 @@ public class UIController
 		this.incomingPacketsFromPeerQueue = new IncomingPacketQueue();
 		this.outgoingPacketsToPeerQueue = new OutgoingPacketQueue();
 		this.peerAddress = new InetSocketAddress("192.168.255.0",packetSize);
-		this.receiveFromPeer = new DatagramReceiver(new DatagramSocket(incomingPortNumber.get(),peerAddress.getAddress()),this.incomingPacketsFromPeerQueue,packetSize)
-		this.sendToPeer = new DatagramSender(new DatagramSocket(outgoingPortNumber.get(),peerAddress.getAddress()),this.outgoingPacketsFromPeerQueue,packetSize)
+		
+		try 
+		{
+			this.receiveFromPeer = new DatagramReceiver(new DatagramSocket(incomingPortNumber.get(),peerAddress.getAddress()),this.incomingPacketsFromPeerQueue,packetSize);
+		}
+		catch (SocketException e) 
+		{
+			System.out.println("UIContoller failed to open socket to receive from peer.");
+			e.printStackTrace();
+		}
+		try 
+		{
+			this.sendToPeer = new DatagramSender(new DatagramSocket(outgoingPortNumber.get(),peerAddress.getAddress()),this.outgoingPacketsToPeerQueue,packetSize);
+		} 
+		catch (SocketException e) 
+		{
+			System.out.println("UIController failed to open socket to send to peer.");
+			e.printStackTrace();
+		}
+
 		this.done = false;
 		this.commandProcessor = new CommandProcessor(new CommandNone(),new CommandError());
 	}
 	public void start()
 	{
+		Scanner keyboard;
+		String line;
+		boolean finish;
 		commandProcessor.register(new CommandJoin("join","Used to join the peer community."));
 		commandProcessor.register(new CommandGet("get","Used to request items from the peer community."));
 		commandProcessor.register(new CommandFind("find","Used to find items that others on the peer community have."));
-	
-	
-	
-	
+		commandProcessor.register(new CommandExit("exit","Used to exit the peer community."));
+		commandProcessor.register(new CommandHelp("help","Shows user available commands"));
+		keyboard = new Scanner(System.in);
+		
+		System.out.println("Please enter a command. For help type help");
+		line = keyboard.nextLine();
+		commandProcessor.getCommand(line).execute();	
+		
+		while(!line.equals("exit"))
+		{
+			System.out.println("Please enter a command. For help type help");
+			line = keyboard.nextLine();
+			commandProcessor.getCommand(line).execute();
+		}
+		commandProcessor.getCommand("exit").execute();
 	}
 	private abstract class UIControllerCommand extends Command
 	{
@@ -140,6 +174,16 @@ public class UIController
 		public void execute() 
 		{
 			println("Finding the data.");
+		}
+	}
+	private class CommandExit extends UIControllerCommand
+	{
+		public CommandExit(String commandName,String description)
+		{
+			super(commandName,description);
+		}
+		public void execute() {
+			System.out.println("Thank you come again.");
 		}
 		
 	}

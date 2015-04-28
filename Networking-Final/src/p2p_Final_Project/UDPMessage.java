@@ -23,11 +23,26 @@ public class UDPMessage {
 	}
 	public UDPMessage(DatagramPacket datagramPacket)
 	{
-		//TODO process datagramPacket given our protocol
+		//ID1 & ID2 16 bits and TTL 4 bits
+		byte[] data = datagramPacket.getData();
+		byte[] id1 = new byte[16];
+		byte[] id2 = new byte[16];
+		byte[] ttl = new byte[4];
+		byte[] message = new byte[data.length - (id1.length+id2.length+ttl.length )];
+		
+		for(int i = 0;i<id1.length;i++)
+		{
+			id1[i] = data[i];
+			id2[i] = data[i+16];
+		}
+		for(int i = 32;i<id1.length+id2.length+ttl.length;i++)
+		{
+			ttl[i] = data[i];
+		}
+		System.arraycopy(data,id1.length+id2.length+ttl.length , message, 0, message.length);
 	}
 	public DatagramPacket getDatagramPacket()
 	{
-		//TODO build datagram packet from the class variables
 		return null;
 	}
 	public DatagramPacket getDatagramPacket(String message)

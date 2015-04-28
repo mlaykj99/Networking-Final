@@ -44,6 +44,15 @@ public class CommandProcessor {
 	}
 	public Command getCommand(String commandText)
 	{
+		System.out.println("This is the command that is being attempted to exectue: "+commandText);
+		if(commandRegistry.containsValue(commandText))
+		{
+			return this.noSuchCommand;
+		}
+		else if(commandText.trim().length() == 0)
+		{
+			return this.nothingEnteredCommand;
+		}
 		return commandRegistry.get(commandText);
 	}
 }
