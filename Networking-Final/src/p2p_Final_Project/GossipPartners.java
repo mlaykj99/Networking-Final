@@ -25,6 +25,10 @@ public class GossipPartners {
 	}
 	public void send(UDPMessage message)
 	{
+		if(message == null)
+		{
+			throw new IllegalArgumentException("Error: message in GossipPartners  send method is null.");
+		}
 		Iterator<GossipPartner> i = gossipPartners.iterator();
 		
 		while(i.hasNext())

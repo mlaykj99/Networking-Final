@@ -59,6 +59,10 @@ public abstract class Command implements ActionInterface, Comparable<Command>, C
 	}
 	public void setParameters(String parameters)
 	{
+		if(parameters == null)
+		{
+			throw new IllegalArgumentException("Error: parameters in class "+this.getClass()+" cannot be set to null.");
+		}
 		this.parameters = parameters;
 	}
 	
@@ -89,6 +93,10 @@ public abstract class Command implements ActionInterface, Comparable<Command>, C
 	}
 	public String[] getParameters(String delimeter)
 	{
+		if(delimeter == null)
+		{
+			throw new IllegalArgumentException("Error: the delimeter cannot be null in class "+this.getClass());
+		}
 		//TODO
 		return null;
 	}

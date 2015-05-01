@@ -44,7 +44,10 @@ public class CommandProcessor {
 	}
 	public Command getCommand(String commandText)
 	{
-		System.out.println("This is the command that is being attempted to exectue: "+commandText);
+		if(commandText == null)
+		{
+		throw new IllegalArgumentException("Error: commandText in CommandProcessor cannot be null.");
+		}
 		if(commandRegistry.containsValue(commandText))
 		{
 			return this.noSuchCommand;

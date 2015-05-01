@@ -10,13 +10,21 @@ public class GossipPartner {
 	
 	public GossipPartner(InetSocketAddress gossipPartnerAddress,OutgoingPacketQueue queue)
 	{
+		if(gossipPartnerAddress == null)
+		{
+			throw new IllegalArgumentException("Error: gossipPartnerAddress in class GossipPartner cannot be null.");
+		}
+		if(queue == null)
+		{
+			throw new IllegalArgumentException("Error: queue in class GossipPartner cannot be null.");
+		}
 		this.isAlive = true;
 		this.gossipPartnerAddress = gossipPartnerAddress;
 		this.queue = queue;
 	}
-	public boolean equals(Object other)
+	public boolean equals(GossipPartner other)
 	{
-		return false;
+		return other.getGossipPartnerAddress() == this.getGossipPartnerAddress();
 	}
 	public InetSocketAddress getGossipPartnerAddress()
 	{
@@ -24,7 +32,7 @@ public class GossipPartner {
 	}
 	public int hashCode()
 	{
-		return 0;
+		return getGossipPartnerAddress().toString().hashCode();
 	}
 	public boolean isAlive()
 	{

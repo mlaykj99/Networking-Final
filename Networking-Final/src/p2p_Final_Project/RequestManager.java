@@ -19,10 +19,18 @@ public class RequestManager {
 	}
 	public Request getRequest(ID id)
 	{
+		if(id == null)
+		{
+			throw new IllegalArgumentException("Error: id in RequestManager method getRequest cannot be null.");
+		}
 		return this.requestDirectory.get(id);
 	}
 	public void insertRequest(Request request)
 	{
+		if(request == null)
+		{
+			throw new IllegalArgumentException("Error: request in RequestManager insertRequest cannot be null.");
+		}
 		requestDirectory.put(request.getID(),request);
 	}
 }

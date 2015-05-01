@@ -5,6 +5,10 @@ public abstract class Request {
 	
 	public Request(ID requestID)
 	{
+		if(requestID == null)
+		{
+			throw new IllegalArgumentException("Error: requestID in "+this.getClass()+"constructor cannot be null.");
+		}
 		this.requestID = requestID;
 	}
 

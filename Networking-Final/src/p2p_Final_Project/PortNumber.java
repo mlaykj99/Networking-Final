@@ -5,6 +5,10 @@ public class PortNumber {
 	
 	public PortNumber(int portNumber)
 	{
+		if(portNumber < 2000)
+		{
+			throw new IllegalArgumentException("Error: portNumber for class "+this.getClass()+  " cannot be less 2000");
+		}
 		this.portNumber = portNumber;
 	}
 	public int get()
