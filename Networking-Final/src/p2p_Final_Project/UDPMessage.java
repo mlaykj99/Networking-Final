@@ -55,37 +55,67 @@ public class UDPMessage {
 	}
 	public UDPMessage(DatagramPacket datagramPacket)
 	{
+		if(datagramPacket == null)
+		{
+			throw new IllegalArgumentException("Error: UDPMessage.constructor(DatagramPacket) datagramPacket cannot be null");
+		}
 		//ID1 & ID2 16 bits and TTL 4 bits
 		byte[] data = datagramPacket.getData();
-		byte[] id1 = new byte[16];
-		byte[] id2 = new byte[16];
-		byte[] ttl = new byte[4];
+		byte[] id1 = new byte[ID.getIDLength()];
+		byte[] id2 = new byte[ID.getIDLength()];
+		byte[] ttl = new byte[TimeToLive.getLengthInBytes()];
 		byte[] message = new byte[data.length - (id1.length+id2.length+ttl.length )];
-		//TODO need to checking to make sure the values truly are numbers
-		for(int i = 0;i<id1.length;i++)
+
+		if(data.length < (id1.length+id2.length+ttl.length))
 		{
-			id1[i] = data[i];
-			id2[i] = data[i+16];
+			throw new InvalidPacketFormatException("DatagramPacket in UDPMessage constructor does not meet specifications.",datagramPacket);
 		}
-		for(int i = 32;i<id1.length+id2.length+ttl.length;i++)
-		{
-			ttl[i] = data[i];
-		}
+		
+		
+		System.arraycopy(data,0,id1,0,id1.length);
+		System.arraycopy(data, id1.length, id2, 0, id2.length);
+		System.arraycopy(data,id1.length+id2.length,ttl,0,ttl.length);
 		System.arraycopy(data,id1.length+id2.length+ttl.length , message, 0, message.length);
+		
+		this.id1 = new ID(id1);
+		this.id2 = new ID(id2);
+		this.timeToLive = new TimeToLive(ttl);
+		this.message = message;
 	}
 	public DatagramPacket getDatagramPacket()
 	{
-		return null;
+		byte[] data;
+		
+		data = new byte[ID.getIDLength()*2+TimeToLive.getLengthInBytes()+this.message.length];
+		
+		System.arraycopy(this.id1.getBytes(), 0, data, 0, ID.getIDLength());
+		System.arraycopy(this.id2.getBytes(), 0,data , ID.getIDLength(), ID.getIDLength());
+		System.arraycopy(this.timeToLive.toByteArray(),0,data,ID.getIDLength()*2,TimeToLive.getLengthInBytes());
+		System.arraycopy(this.message,0,data,ID.getIDLength()*2+TimeToLive.getLengthInBytes(),this.message.length);
+		
+		return new DatagramPacket(data,0);
 	}
 	public DatagramPacket getDatagramPacket(String message)
 	{
+		
 		if(message == null)
 		{
 			throw new IllegalArgumentException("Error: message in UDPMessage method getDatagramPacket(String) cannot be null.");
 		}
-		//TODO build datagram packet from the class variables
-		//use the new message instead of class variable
-		return null;
+		
+		byte[] data;
+		byte[] messageAsBytes;
+		
+		messageAsBytes = message.getBytes();
+		data = new byte[ID.getIDLength()*2+TimeToLive.getLengthInBytes()+messageAsBytes.length];
+		
+		
+		System.arraycopy(this.id1.getBytes(), 0, data, 0, ID.getIDLength());
+		System.arraycopy(this.id2.getBytes(), 0,data , ID.getIDLength(), ID.getIDLength());
+		System.arraycopy(this.timeToLive.toByteArray(),0,data,ID.getIDLength()*2,TimeToLive.getLengthInBytes());
+		System.arraycopy(messageAsBytes,0,data,ID.getIDLength()*2+TimeToLive.getLengthInBytes(),messageAsBytes.length);
+		
+		return new DatagramPacket(data,0);
 	}
 	public DatagramPacket getDatagramPacket(byte[] message)
 	{
@@ -93,9 +123,17 @@ public class UDPMessage {
 		{
 			throw new IllegalArgumentException("Error: message in UDPMessage method getDatagramPacket(byte[]) cannot be null.");
 		}
-		//TODO build datagram packet from the class variables
-		//use the new message instead of class variable
-		return null;
+		
+		byte[] data;
+		
+		data = new byte[ID.getIDLength()*2+TimeToLive.getLengthInBytes()+message.length];
+		
+		System.arraycopy(this.id1.getBytes(), 0, data, 0, ID.getIDLength());
+		System.arraycopy(this.id2.getBytes(), 0,data , ID.getIDLength(), ID.getIDLength());
+		System.arraycopy(this.timeToLive.toByteArray(),0,data,ID.getIDLength()*2,TimeToLive.getLengthInBytes());
+		System.arraycopy(message,0,data,ID.getIDLength()*2+TimeToLive.getLengthInBytes(),message.length);
+		
+		return new DatagramPacket(data,0);
 	}
 	public ID getId1() {
 		return this.id1;

@@ -7,6 +7,6 @@ public class InvalidPacketFormatException extends RuntimeException {
 
 	public InvalidPacketFormatException(String message,DatagramPacket datagram)
 	{
-		super(message + datagram.getAddress());
+		super(message +" The packet came from address: "+ datagram.getAddress());
 	}
 }
