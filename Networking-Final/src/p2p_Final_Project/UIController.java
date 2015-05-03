@@ -47,7 +47,6 @@ public class UIController
 	{
 		Scanner keyboard;
 		String line;
-		boolean finish;
 		commandProcessor.register(new CommandJoin("join","Used to join the peer community."));
 		commandProcessor.register(new CommandGet("get","Used to request items from the peer community."));
 		commandProcessor.register(new CommandFind("find","Used to find items that others on the peer community have."));
@@ -57,15 +56,16 @@ public class UIController
 		
 		System.out.println("Please enter a command. For help type help");
 		line = keyboard.nextLine();
-		commandProcessor.getCommand(line).execute();	
+		commandProcessor.getCommand(line).run();	
 		
 		while(!line.equals("exit"))
 		{
 			System.out.println("Please enter a command. For help type help");
 			line = keyboard.nextLine();
-			commandProcessor.getCommand(line).execute();
+			commandProcessor.getCommand(line).run();
 		}
-		commandProcessor.getCommand("exit").execute();
+		commandProcessor.getCommand("exit").run();
+		keyboard.close();
 	}
 	private abstract class UIControllerCommand extends Command
 	{
@@ -112,12 +112,15 @@ public class UIController
 		{
 			super(commandName,description);
 		}
-		public void execute() {
+		
+		public void run() 
+		{
 			Command[] allCommands = getCommandProcessor().getAllCommands();
 			for(int i = 0;i < allCommands.length; i++)
 			{
-				println(allCommands[i].getCommandName() + ": "+ allCommands[i].getDescription());
+				println(allCommands.toString());
 			}
+			
 		}
 	}
 	private class CommandError extends UIControllerCommand
@@ -126,9 +129,11 @@ public class UIController
 		{
 			
 		}
-		public void execute() 
+		@Override
+		public void run() 
 		{
-			println("Sorry an error occur.");
+			// TODO Auto-generated method stub
+			
 		}
 	}
 	private class CommandNone extends UIControllerCommand
@@ -137,8 +142,8 @@ public class UIController
 		{
 			super();
 		}
-		public void execute() 
-		{
+
+		public void run() {
 			println("Sorry that command does not exist. Type help for a list of commands.");
 		}
 	}
@@ -148,9 +153,8 @@ public class UIController
 		{
 			super(commandName,description);
 		}
-		public void execute() 
-		{
-			println("Joining the Peer Group");
+		public void run() {
+				println("Joining the Peer Group");
 		}
 	}
 	private class CommandGet extends UIControllerCommand
@@ -159,10 +163,9 @@ public class UIController
 		{
 			super(commandName,description);
 		}
-		public void execute() 
-		{
+		public void run() {
+			// TODO Auto-generated method stub
 			println("Retrieving the stuff");
-			
 		}
 	}
 	private class CommandFind extends UIControllerCommand
@@ -171,9 +174,9 @@ public class UIController
 		{
 			super(commandName,description);
 		}
-		public void execute() 
-		{
-			println("Finding the data.");
+		public void run() {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 	private class CommandExit extends UIControllerCommand
@@ -182,7 +185,7 @@ public class UIController
 		{
 			super(commandName,description);
 		}
-		public void execute() {
+		public void run() {
 			System.out.println("Thank you come again.");
 		}
 		

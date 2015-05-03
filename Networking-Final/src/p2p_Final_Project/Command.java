@@ -1,6 +1,6 @@
 package p2p_Final_Project;
 
-public abstract class Command implements ActionInterface, Comparable<Command>, Cloneable {
+public abstract class Command implements Runnable, Comparable<Command>, Cloneable {
 	
 	private String commandName;
 	private String description;
@@ -68,8 +68,7 @@ public abstract class Command implements ActionInterface, Comparable<Command>, C
 	
 	public String toString()
 	{
-		//TODO
-		return null;
+		return "Command Name: " + commandName + " Description: " + description;
 	}
 
 	public int compareTo(Command other) {
@@ -78,7 +77,7 @@ public abstract class Command implements ActionInterface, Comparable<Command>, C
 	}
 
 	@Override
-	public abstract void execute();
+	public abstract void run();
 	
 	public String getCommandName()
 	{
@@ -97,8 +96,8 @@ public abstract class Command implements ActionInterface, Comparable<Command>, C
 		{
 			throw new IllegalArgumentException("Error: the delimeter cannot be null in class "+this.getClass());
 		}
-		//TODO
-		return null;
+		
+		return this.parameters.split(delimeter);
 	}
 
 
