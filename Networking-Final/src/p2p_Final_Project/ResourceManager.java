@@ -23,7 +23,7 @@ public class ResourceManager {
 	}
 	public static void loadResourcesFrom(File file)
 	{
-		//TODO ask jarvis
+		//TODO file reader
 	}
 	public Resource[] getResourcesThatMatch(String searchString)
 	{
