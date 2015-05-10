@@ -12,7 +12,7 @@ public class RequestToFindResources extends Request {
 	}
 	public void updateRquest(UDPMessage udpMessage) 
 	{
-		
+		//connects with ui controller to determine actions
 	}
 
 }

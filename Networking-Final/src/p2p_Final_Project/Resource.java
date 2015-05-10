@@ -10,13 +10,25 @@ public class Resource {
 	
 	public Resource(ID id,String data)
 	{
+		String[] temp;
+		
 		this.resourceID = id;
-		//TODO what does the data string have in it and what should we do with it
+		
+		temp = data.split(" ");
+		this.location = new File(temp[0]);
+		this.mimeType = temp[1];
+		this.description = temp[2];
 	}
 	public Resource(ID id, String data,char delimeter)
 	{
+		String[] temp;
+		
 		this.resourceID = id;
-		//TODO whats the delimeter for and same as above
+
+		temp = data.split("" + delimeter);
+		this.location = new File(temp[0]);
+		this.mimeType = temp[1];
+		this.description = temp[2];
 	}
 	public String getDescription() {
 		return this.description;
@@ -36,7 +48,8 @@ public class Resource {
 	}
 	public boolean matches(String searchString)
 	{
-		return description.contains(searchString);
-		//TODO possibly wrong implementation
+		return  description.contains(searchString) && 
+				mimeType.contains(searchString) && 
+				location.getName().contains(searchString);
 	}
 }
