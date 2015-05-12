@@ -21,6 +21,7 @@ public abstract class DatagramSenderReceiver implements Runnable
 		this.datagramSocket = datagramSocket;
 		this.queue = queue;
 		this.packetSize = packetSize;
+		this.done = new AtomicBoolean();
 	}
 	
 	public int getPacketSize() { return this.packetSize; }
