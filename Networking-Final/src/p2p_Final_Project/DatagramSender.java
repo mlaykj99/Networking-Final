@@ -19,7 +19,6 @@ public class DatagramSender extends DatagramSenderReceiver
 			try
 			{
 				datagramSocket.send((DatagramPacket) queue.deQueue());
-				//Thread.sleep(100);
 			} 
 			catch (Exception e)
 			{

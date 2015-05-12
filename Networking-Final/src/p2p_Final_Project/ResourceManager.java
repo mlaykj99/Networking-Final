@@ -1,6 +1,7 @@
 package p2p_Final_Project;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
@@ -30,19 +31,31 @@ public class ResourceManager {
 	}
 	public static void loadResourcesFrom(File file)
 	{
+		RandomAccessFile files;
+		String filePath;
+
 		try 
 		{
-			RandomAccessFile raf;
-			MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
-			String data;
-			Resource temp;
+			files = new RandomAccessFile(file, "r");
+			filePath = files.readLine();
 			
-			raf = new RandomAccessFile(file, "r");
-			data = file.getPath() + " " + mimeTypesMap.getContentType(file) + " " + raf.readLine();
-			temp = new Resource(ID.idFactory(),data);
-			
-			resourceDirectory.put(temp.getResourceID(), temp);
-			listOfMap.add(temp);
+			while(filePath != null)
+			{
+					RandomAccessFile raf;
+					MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+					String data;
+					Resource temp;
+					File resource = new File(filePath);
+					
+					raf = new RandomAccessFile(resource, "r");
+					data = file.getPath() + " " + mimeTypesMap.getContentType(resource) + " " + raf.readLine();
+					temp = new Resource(ID.idFactory(),data);
+					
+					resourceDirectory.put(temp.getResourceID(), temp);
+					listOfMap.add(temp);
+					
+					filePath = files.readLine();
+			}
 		} 
 		catch (IOException e)
 		{

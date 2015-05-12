@@ -16,8 +16,9 @@ public class DatagramReceiver extends DatagramSenderReceiver
 	{
 		try
 		{
-			datagramSocket.receive((DatagramPacket) queue.deQueue());
-			//Thread.sleep(100);
+			DatagramPacket packet = new DatagramPacket(new byte[476], 476);
+			datagramSocket.receive(packet);
+			queue.enQueue(packet);
 		} 
 		catch (Exception e)
 		{
