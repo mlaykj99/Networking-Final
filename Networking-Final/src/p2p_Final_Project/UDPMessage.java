@@ -86,7 +86,7 @@ public class UDPMessage {
 	{
 		byte[] data;
 		
-		data = new byte[ID.getIDLength()*2+TimeToLive.getLengthInBytes()+this.message.length];
+		data = new byte[getMinimumPacketSize()+this.message.length];
 		
 		System.arraycopy(this.id1.getBytes(), 0, data, 0, ID.getIDLength());
 		System.arraycopy(this.id2.getBytes(), 0,data , ID.getIDLength(), ID.getIDLength());
@@ -147,5 +147,12 @@ public class UDPMessage {
 	public byte[] getMessage() {
 		return this.message;
 	}
-	
+	public static int getMaximumPacketSize()
+	{
+		return 476;
+	}
+	public static int getMinimumPacketSize()
+	{
+		return ID.getIDLength()*2+TimeToLive.getLengthInBytes();
+	}
 }

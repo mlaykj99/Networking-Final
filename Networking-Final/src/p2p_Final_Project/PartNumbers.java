@@ -26,4 +26,12 @@ public class PartNumbers {
 		
 		return bytes;
 	}
+	public int getLengthInBytes()
+	{
+		return 4;
+	}
+	public int numberOfMissingParts()
+	{
+		return numberOfMissingParts;
+	}
 }

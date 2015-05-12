@@ -183,7 +183,21 @@ public class UIController
 		}
 		public void run() {
 			// TODO Auto-generated method stub
-			
+			Scanner keyboard;
+			String line;
+			byte[] message;
+			byte[] toBeSent;
+			keyboard = new Scanner(System.in);
+			println("Which resource would you like to get?");
+			line = keyboard.nextLine();
+			message = line.getBytes();
+			toBeSent = new byte[message.length + 1];
+			toBeSent[0] = id[0];
+			for(int i = 1; i < toBeSent.length;i++)
+			{
+				toBeSent[i] = message[i-1];
+			}
+			sendToPeer(toBeSent);
 		}
 	}
 	private class CommandFind extends UIControllerCommand
