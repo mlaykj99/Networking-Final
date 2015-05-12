@@ -59,17 +59,23 @@ public class UDPMessage {
 		{
 			throw new IllegalArgumentException("Error: UDPMessage.constructor(DatagramPacket) datagramPacket cannot be null");
 		}
+		
 		//ID1 & ID2 16 bits and TTL 4 bits
 		byte[] data = datagramPacket.getData();
+		
+		if(data.length <= getMinimumPacketSize())
+		{
+			throw new InvalidPacketFormatException("DatagramPacket in UDPMessage constructor is too small.",datagramPacket);
+		}
+		if(data.length > getMaximumPacketSize())
+		{
+			throw new InvalidPacketFormatException("DatagramPacket in UDPMessage constructor is too large.",datagramPacket);
+		}
+		
 		byte[] id1 = new byte[ID.getIDLength()];
 		byte[] id2 = new byte[ID.getIDLength()];
 		byte[] ttl = new byte[TimeToLive.getLengthInBytes()];
 		byte[] message = new byte[data.length - (id1.length+id2.length+ttl.length )];
-
-		if(data.length < (id1.length+id2.length+ttl.length))
-		{
-			throw new InvalidPacketFormatException("DatagramPacket in UDPMessage constructor does not meet specifications.",datagramPacket);
-		}
 		
 		
 		System.arraycopy(data,0,id1,0,id1.length);
@@ -149,7 +155,7 @@ public class UDPMessage {
 	}
 	public static int getMaximumPacketSize()
 	{
-		return 476;
+		return 512;
 	}
 	public static int getMinimumPacketSize()
 	{

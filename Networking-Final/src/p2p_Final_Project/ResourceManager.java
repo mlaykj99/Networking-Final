@@ -71,7 +71,7 @@ public class ResourceManager {
 		//Search Map for resources
 		for(int i = 0; i < listOfMap.size(); i++)
 		{
-			if(listOfMap.get(i).getDescription().contains(searchString))
+			if(listOfMap.get(i).matches(searchString))
 			{
 				resources.add(listOfMap.get(i));
 			}

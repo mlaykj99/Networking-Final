@@ -48,8 +48,6 @@ public class Resource {
 	}
 	public boolean matches(String searchString)
 	{
-		return  description.contains(searchString) && 
-				mimeType.contains(searchString) && 
-				location.getName().contains(searchString);
+		return  description.contains(searchString);
 	}
 }

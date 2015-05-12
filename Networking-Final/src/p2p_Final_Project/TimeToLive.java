@@ -18,7 +18,7 @@ public class TimeToLive
 		
 		//timeToLive = byteArray[3] & 0xFF | (byteArray[2] & 0xFF) << 8 | (byteArray[1] & 0xFF) << 16 | (byteArray[0] & 0xFF) << 24;	
 		for (int i = 0; i < byteArray.length; i++) {
-		    timeToLive = timeToLive | (byteArray[i - (byteArray.length-1)] & 0xFF) << (i * 8);
+		    timeToLive = timeToLive | (byteArray[(byteArray.length-1) - i] & 0xFF) << (i * 8);
 		}
 	}
 	

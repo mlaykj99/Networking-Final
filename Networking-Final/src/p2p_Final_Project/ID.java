@@ -239,18 +239,16 @@ public class ID
 	}
 	
 	public String toString()
-	{
-		String string;
+	{		
+		String result;
 		
-		//Creates a string of comma separated numbers
-		//corresponding to the bytes in the array
-		string = "";
+		result = "";
 		for(int i = 0; i < id.length; i++)
 		{
-			string = string + id[i] + ", ";
+			result = result + "Byte " + i + ": " + id[i] + "\n";
 		}
 		
-		return string.substring(0,string.length()-2);
+		return result;
 	}
 	
 	private static byte[] getSecureRandom()

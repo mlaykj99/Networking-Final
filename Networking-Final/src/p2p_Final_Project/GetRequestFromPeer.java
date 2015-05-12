@@ -2,14 +2,16 @@ package p2p_Final_Project;
 
 public class GetRequestFromPeer extends RequestFromPeer implements Runnable {
 
-	public GetRequestFromPeer(UDPMessage message) {
+	public GetRequestFromPeer(UDPMessage message) //Add reference to queue from peer controller when constructed as instance var
+	{
 		super(message);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void run() {
-		// TODO Auto-generated method stub
+	public void run() 
+	{
+		// TODO create packet with requested part info
+		//place in outgoing peer queue
 
 	}
 

@@ -118,7 +118,7 @@ public class UIController
 		}
 		public void sendToPeer(byte[] message)
 		{
-			getOutgoing().enQueue(new DatagramPacket(getPeerAddress(),));
+			//getOutgoing().enQueue(new DatagramPacket(getPeerAddress(),));
 		}
 	}
 	private class CommandHelp extends UIControllerCommand
