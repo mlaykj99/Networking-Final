@@ -1,5 +1,6 @@
 package p2p_Final_Project;
 
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketException;
@@ -19,8 +20,8 @@ public class UIController
 	{
 		this.incomingPacketsFromPeerQueue = new IncomingPacketQueue();
 		this.outgoingPacketsToPeerQueue = new OutgoingPacketQueue();
-		this.peerAddress = new InetSocketAddress("192.168.255.0",packetSize);
-		
+		this.peerAddress = new InetSocketAddress("192.168.255.0",12345);
+	
 		try 
 		{
 			this.receiveFromPeer = new DatagramReceiver(new DatagramSocket(incomingPortNumber.get(),peerAddress.getAddress()),this.incomingPacketsFromPeerQueue,packetSize);
@@ -56,7 +57,9 @@ public class UIController
 		
 		System.out.println("Please enter a command. For help type help");
 		line = keyboard.nextLine();
-		commandProcessor.getCommand(line).run();	
+		commandProcessor.getCommand(line).run();
+		this.sendToPeer.startAsThread();
+		this.receiveFromPeer.startAsThread();
 		
 		while(!line.equals("exit"))
 		{
@@ -66,6 +69,18 @@ public class UIController
 		}
 		commandProcessor.getCommand("exit").run();
 		keyboard.close();
+	}
+	private IncomingPacketQueue getIncoming()
+	{
+		return this.incomingPacketsFromPeerQueue;
+	}
+	private OutgoingPacketQueue getOutgoing()
+	{
+		return this.outgoingPacketsToPeerQueue;
+	}
+	private InetSocketAddress getPeerAddress()
+	{
+		return this.peerAddress;
 	}
 	private abstract class UIControllerCommand extends Command
 	{
@@ -101,9 +116,9 @@ public class UIController
 		{
 			done = flag;
 		}
-		public void sendToPeer()
+		public void sendToPeer(byte[] message)
 		{
-			print("Sending to Peer for Execution");
+			getOutgoing().enQueue(new DatagramPacket(getPeerAddress(),));
 		}
 	}
 	private class CommandHelp extends UIControllerCommand
@@ -132,8 +147,7 @@ public class UIController
 		@Override
 		public void run() 
 		{
-			// TODO Auto-generated method stub
-			
+			println("Sorry an error occured.");
 		}
 	}
 	private class CommandNone extends UIControllerCommand
@@ -149,27 +163,32 @@ public class UIController
 	}
 	private class CommandJoin extends UIControllerCommand
 	{
+		private byte[] id = {0};
+		
 		public CommandJoin(String commandName,String description)
 		{
 			super(commandName,description);
 		}
-		public void run() {
-				println("Joining the Peer Group");
+		public void run() 
+		{
+			sendToPeer(id);
 		}
 	}
 	private class CommandGet extends UIControllerCommand
 	{
+		private byte[] id = {1};
 		public CommandGet(String commandName,String description)
 		{
 			super(commandName,description);
 		}
 		public void run() {
 			// TODO Auto-generated method stub
-			println("Retrieving the stuff");
+			
 		}
 	}
 	private class CommandFind extends UIControllerCommand
 	{
+		private byte[] id = {2};
 		public CommandFind(String commandName,String description)
 		{
 			super(commandName,description);

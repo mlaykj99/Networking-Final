@@ -17,10 +17,13 @@ public class PartNumbers {
 	{
 		return this.numberOfParts;
 	}
-	public int getBytes()
+	public byte[] getBytes()
 	{
-		//TODO have on a sheet not currently with me 
-		//Will do at a later time.
-		return 0;
+		byte[] bytes = new byte[4];
+		for (int i = 0; i < 4; i++) {
+		    bytes[i] = (byte)(numberOfParts >>> (i * 8));
+		}
+		
+		return bytes;
 	}
 }
