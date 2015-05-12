@@ -10,7 +10,7 @@ public class DatagramReceiveTester {
 	{
 		try {
 			DatagramSocket ds = new DatagramSocket(54321);
-			DatagramPacket dg = new dg(new byte[512],512);
+			DatagramPacket dg = new DatagramPacket(new byte[512],512);
 			DatagramPacket[] dgArray = new DatagramPacket[10];
 			int i = 0;
 			
