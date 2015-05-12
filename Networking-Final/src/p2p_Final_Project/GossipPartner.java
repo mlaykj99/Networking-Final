@@ -24,7 +24,7 @@ public class GossipPartner {
 	}
 	public boolean equals(GossipPartner other)
 	{
-		return other.getGossipPartnerAddress().equals(this.getGossipPartnerAddress());
+		return other.getGossipPartnerAddress() == this.getGossipPartnerAddress();
 	}
 	public InetSocketAddress getGossipPartnerAddress()
 	{

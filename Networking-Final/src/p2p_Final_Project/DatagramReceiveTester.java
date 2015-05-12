@@ -11,24 +11,21 @@ public class DatagramReceiveTester {
 		try {
 			DatagramSocket ds = new DatagramSocket(54321);
 			DatagramPacket dg = new DatagramPacket(new byte[512],512);
-			DatagramPacket[] dgArray = new DatagramPacket[10];
+			UDPMessage[] udpArray = new UDPMessage[10];
+			UDPMessage udp;
 			int i = 0;
 			
-			while(i < 10)
+			while(i < 1)
 			{
 				ds.receive(dg);
 				System.out.println(dg + " we received a packet a packet");
-				dgArray[i] = dg;
+				udpArray[i] = new UDPMessage(dg);
 				i++;
 			}
 			
-			for(i = 0; i < dgArray.length;i++)
+			for(i = 0; i < udpArray.length;i++)
 			{
-				for(int j = 0; j < dgArray[i].getData().length;j++)
-				{
-					System.out.print(dgArray[i].getData()[j]);
-				}
-				System.out.println();
+					System.out.print(udpArray[i].getId1());
 			}
 			
 			
