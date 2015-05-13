@@ -9,8 +9,11 @@ public class DatagramReceiveTester {
 	public static void main(String[] args)
 	{
 		try {
+			byte[] buffer = new byte[300];
 			DatagramSocket ds = new DatagramSocket(54321);
-			DatagramPacket dg = new DatagramPacket(new byte[512],512);
+			DatagramPacket dg = new DatagramPacket(buffer,300);
+			byte[] a = {10,10,10,10,10,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+			dg.setData(a,0,5);
 			UDPMessage[] udpArray = new UDPMessage[10];
 			UDPMessage udp;
 			int i = 0;
@@ -18,7 +21,7 @@ public class DatagramReceiveTester {
 			while(i < 1)
 			{
 				ds.receive(dg);
-				System.out.println(dg + " we received a packet a packet");
+				System.out.println(buffer[12] + " we received a packet a packet");
 				udpArray[i] = new UDPMessage(dg);
 				i++;
 			}
