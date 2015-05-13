@@ -10,58 +10,39 @@ public class UIController
 {
 	private CommandProcessor 	commandProcessor;
 	private boolean 			done;
-	private IncomingPacketQueue incomingPacketsFromPeerQueue;
-	private OutgoingPacketQueue outgoingPacketsToPeerQueue;
-	private InetSocketAddress 	peerAddress;
-	private DatagramReceiver 	receiveFromPeer;
-	private DatagramSender 		sendToPeer;
+	private SynchronizedLinkedListQueue uiQueue;
+	private SynchronizedLinkedListQueue peerQueue;
+	private Scanner keyboard;
+	private QueueListener queueListener;
 	
-	public UIController(PortNumberForReceiving incomingPortNumber, PortNumberForSending outgoingPortNumber,int packetSize)
+	public UIController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue)
 	{
-		this.incomingPacketsFromPeerQueue = new IncomingPacketQueue();
-		this.outgoingPacketsToPeerQueue = new OutgoingPacketQueue();
-		this.peerAddress = new InetSocketAddress("192.168.255.0",12345);
-	
-		try 
-		{
-			this.receiveFromPeer = new DatagramReceiver(new DatagramSocket(incomingPortNumber.get(),peerAddress.getAddress()),this.incomingPacketsFromPeerQueue,packetSize);
-		}
-		catch (SocketException e) 
-		{
-			System.out.println("UIContoller failed to open socket to receive from peer.");
-			e.printStackTrace();
-		}
-		try 
-		{
-			this.sendToPeer = new DatagramSender(new DatagramSocket(outgoingPortNumber.get(),peerAddress.getAddress()),this.outgoingPacketsToPeerQueue,packetSize);
-		} 
-		catch (SocketException e) 
-		{
-			System.out.println("UIController failed to open socket to send to peer.");
-			e.printStackTrace();
-		}
-
+		this.uiQueue = uiQueue;
+		this.peerQueue = peerQueue;
 		this.done = false;
 		this.commandProcessor = new CommandProcessor(new CommandNone(),new CommandError());
+		this.keyboard = new Scanner(System.in);
+		this.queueListener = new QueueListener(uiQueue, commandProcessor);
 	}
 	public void start()
 	{
-		Scanner keyboard;
 		String line;
 		commandProcessor.register(new CommandJoin("join","Used to join the peer community."));
 		commandProcessor.register(new CommandGet("get","Used to request items from the peer community."));
 		commandProcessor.register(new CommandFind("find","Used to find items that others on the peer community have."));
 		commandProcessor.register(new CommandExit("exit","Used to exit the peer community."));
 		commandProcessor.register(new CommandHelp("help","Shows user available commands"));
-		keyboard = new Scanner(System.in);
+		commandProcessor.register(new CommandClear("clear","Clears all resources found by find requests"));
+		commandProcessor.register(new CommandSave("save","Save a resource"));
+		commandProcessor.register(new CommandAllSearch("search","Displays a list of found requests"));
+		
+		this.queueListener.startAsThread();
 		
 		System.out.println("Please enter a command. For help type help");
 		line = keyboard.nextLine();
 		commandProcessor.getCommand(line).run();
-		this.sendToPeer.startAsThread();
-		this.receiveFromPeer.startAsThread();
 		
-		while(!line.equals("exit"))
+		while(!line.equalsIgnoreCase("exit"))
 		{
 			System.out.println("Please enter a command. For help type help");
 			line = keyboard.nextLine();
@@ -70,18 +51,14 @@ public class UIController
 		commandProcessor.getCommand("exit").run();
 		keyboard.close();
 	}
-	private IncomingPacketQueue getIncoming()
+	
+	private void insert(CommandCall cc)
 	{
-		return this.incomingPacketsFromPeerQueue;
+		peerQueue.enQueue(cc);
 	}
-	private OutgoingPacketQueue getOutgoing()
-	{
-		return this.outgoingPacketsToPeerQueue;
-	}
-	private InetSocketAddress getPeerAddress()
-	{
-		return this.peerAddress;
-	}
+	
+	private Scanner getKeyboard() { return this.keyboard; }
+	
 	private abstract class UIControllerCommand extends Command
 	{
 		public UIControllerCommand()
@@ -115,10 +92,6 @@ public class UIController
 		public void setDoneFlag(boolean flag)
 		{
 			done = flag;
-		}
-		public void sendToPeer(byte[] message)
-		{
-			//getOutgoing().enQueue(new DatagramPacket(getPeerAddress(),));
 		}
 	}
 	private class CommandHelp extends UIControllerCommand
@@ -163,46 +136,34 @@ public class UIController
 	}
 	private class CommandJoin extends UIControllerCommand
 	{
-		private byte[] id = {0};
-		
 		public CommandJoin(String commandName,String description)
 		{
 			super(commandName,description);
 		}
 		public void run() 
 		{
-			sendToPeer(id);
+			
 		}
 	}
+	
 	private class CommandGet extends UIControllerCommand
 	{
-		private byte[] id = {1};
 		public CommandGet(String commandName,String description)
 		{
 			super(commandName,description);
 		}
-		public void run() {
-			// TODO Auto-generated method stub
-			Scanner keyboard;
-			String line;
-			byte[] message;
-			byte[] toBeSent;
-			keyboard = new Scanner(System.in);
-			println("Which resource would you like to get?");
-			line = keyboard.nextLine();
-			message = line.getBytes();
-			toBeSent = new byte[message.length + 1];
-			toBeSent[0] = id[0];
-			for(int i = 1; i < toBeSent.length;i++)
-			{
-				toBeSent[i] = message[i-1];
-			}
-			sendToPeer(toBeSent);
+		
+		public void run()
+		{
+			CommandCall test = new CommandCall("get", "dogs");
+			insert(test);
+			System.out.println("Inserted into peer queue.");
 		}
 	}
+	
 	private class CommandFind extends UIControllerCommand
 	{
-		private byte[] id = {2};
+		
 		public CommandFind(String commandName,String description)
 		{
 			super(commandName,description);
@@ -212,14 +173,58 @@ public class UIController
 			
 		}
 	}
+	
+	private class CommandClear extends UIControllerCommand
+	{
+		
+		public CommandClear(String commandName,String description)
+		{
+			super(commandName,description);
+		}
+		public void run() {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
+	private class CommandSave extends UIControllerCommand
+	{
+		
+		public CommandSave(String commandName,String description)
+		{
+			super(commandName,description);
+		}
+		public void run()
+		{
+			System.out.println("Saved!");
+		}
+	}
+	
+	private class CommandAllSearch extends UIControllerCommand
+	{
+		
+		public CommandAllSearch(String commandName,String description)
+		{
+			super(commandName,description);
+		}
+		public void run() {
+			// TODO Auto-generated method stub
+			
+		}
+	}
+	
 	private class CommandExit extends UIControllerCommand
 	{
 		public CommandExit(String commandName,String description)
 		{
 			super(commandName,description);
 		}
-		public void run() {
+		
+		public void run()
+		{
 			System.out.println("Thank you come again.");
+			queueListener.stop();
+			//tell peer controller to be done.
 		}
 		
 	}

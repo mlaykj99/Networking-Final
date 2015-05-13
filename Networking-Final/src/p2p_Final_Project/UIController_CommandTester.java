@@ -5,8 +5,8 @@ public class UIController_CommandTester {
 	{
 		UIController uic;
 		
-		uic = new UIController(new PortNumberForReceiving(12345), new PortNumberForSending(12354), 0);
+		//uic = new UIController(new PortNumberForReceiving(12345), new PortNumberForSending(12354), 0);
 		
-		uic.start();
+		//uic.start();
 	}
 }

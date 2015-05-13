@@ -1,10 +1,13 @@
 package p2p_Final_Project;
 
+import java.io.File;
+
 public abstract class Command implements Runnable, Comparable<Command>, Cloneable {
 	
 	private String commandName;
 	private String description;
 	private String parameters;
+	private File file;
 	
 	public Command(String commandName,String description)
 	{
@@ -18,6 +21,7 @@ public abstract class Command implements Runnable, Comparable<Command>, Cloneabl
 		}
 		this.commandName = commandName;
 		this.description = description;
+		this.file = null;
 	}
 	
 	public Command()
@@ -59,11 +63,12 @@ public abstract class Command implements Runnable, Comparable<Command>, Cloneabl
 	}
 	public void setParameters(String parameters)
 	{
-		if(parameters == null)
-		{
-			throw new IllegalArgumentException("Error: parameters in class "+this.getClass()+" cannot be set to null.");
-		}
 		this.parameters = parameters;
+	}
+	
+	public void setFile(File file)
+	{
+		this.file = file;
 	}
 	
 	public String toString()
@@ -89,6 +94,9 @@ public abstract class Command implements Runnable, Comparable<Command>, Cloneabl
 
 	public String getParameters() {
 		return this.parameters;
+	}
+	public File getFile() {
+		return this.file;
 	}
 	public String[] getParameters(String delimeter)
 	{
