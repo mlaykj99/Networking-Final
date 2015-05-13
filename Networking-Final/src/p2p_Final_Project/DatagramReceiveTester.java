@@ -18,7 +18,7 @@ public class DatagramReceiveTester {
 			UDPMessage udp;
 			int i = 0;
 			
-			while(i < 1)
+			while(i < 10)
 			{
 				ds.receive(dg);
 				System.out.println(buffer[12] + " we received a packet a packet");
