@@ -37,15 +37,10 @@ public abstract class DatagramSenderReceiver implements Runnable
 	{
 		while(!this.done.get())
 		{
-			try
-			{
+			System.out.println("Waiting");
+
 				action(this.datagramSocket, this.queue);
-				Thread.sleep(1000);
-			} 
-			catch (InterruptedException e)
-			{
-				e.printStackTrace();
-			}
+
 		}
 	}
 	
