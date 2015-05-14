@@ -97,9 +97,11 @@ public class TesterForMethods
 			OutgoingPacketQueue queue = new OutgoingPacketQueue();
 			DatagramSocket ds = new DatagramSocket(54321);
 			DatagramSender dsn = new DatagramSender(ds, queue, 512);
+			//GossipPartner gp = new GossipPartner(new InetSocketAddress("10.20.61.151" , 54321) , queue);
+			GossipPartner gp2 = new GossipPartner(new InetSocketAddress("10.20.73.219" , 54321) , queue);
 			
 			dsn.startAsThread();
-			gps.addPartner(gp);
+			//gps.addPartner(gp);
 			gps.addPartner(gp2);
 			gps.send(m2);
 			System.out.println("Sent");
