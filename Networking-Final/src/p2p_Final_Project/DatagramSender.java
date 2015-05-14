@@ -20,7 +20,7 @@ public class DatagramSender extends DatagramSenderReceiver
 				DatagramPacket dgp = (DatagramPacket) queue.deQueue();
 				System.out.println("Length: " + dgp.getLength());
 				datagramSocket.send(dgp);
-				Thread.sleep(1000);
+				Thread.sleep(100);
 			} 
 			catch (Exception e)
 			{
