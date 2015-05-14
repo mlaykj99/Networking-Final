@@ -50,9 +50,7 @@ public class SynchronizedLinkedListQueue extends LinkedListQueue
 
 	 public synchronized Object deQueue() { return super.deQueue(); }
 
-	 public synchronized void enQueue(Object data) { 
-		 System.out.println("Putting the stuff in the queue");
-		 super.enQueue(data); }
+	 public synchronized void enQueue(Object data) {super.enQueue(data); }
 
 	 public synchronized void enQueue(LinkedListQueue queue) { super.enQueue(queue); }
 }
