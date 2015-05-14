@@ -33,7 +33,7 @@ public class TesterForMethods
 		
 		
 		//UDP Message
-		/*byte[] b0 = new byte[36];
+		byte[] b0 = new byte[36];
 		byte[] b1 = new byte[500];
 		byte[] b2 = new byte[300];
 		byte[] b3 = new byte[16];
@@ -60,7 +60,7 @@ public class TesterForMethods
 		DatagramPacket d4 = new DatagramPacket(b4, 476);
 		
 		//UDPMessage m0 = new UDPMessage(d0);
-		//UDPMessage m1 = new UDPMessage(d1);
+		//UDPMessage m1 = new UDPMessage(d1);*/
 		UDPMessage m2 = new UDPMessage(d2);
 		//UDPMessage m3 = new UDPMessage(d3);
 		//UDPMessage m4 = new UDPMessage(d4);
@@ -92,18 +92,17 @@ public class TesterForMethods
 			System.out.println(m2.getDatagramPacket(new byte[5]).getData()[i] + " | "+ i);
 		}*/
 		
-		/*try {
+		try {
 			GossipPartners gps = GossipPartners.newInstance();
 			OutgoingPacketQueue queue = new OutgoingPacketQueue();
 			DatagramSocket ds = new DatagramSocket(54321);
 			DatagramSender dsn = new DatagramSender(ds, queue, 512);
-			GossipPartner gp = new GossipPartner(new InetSocketAddress("10.0.0.29" , 54321) , queue);
-			GossipPartner gp2 = new GossipPartner(new InetSocketAddress("10.0.0.18" , 54321) , queue);
 			
 			dsn.startAsThread();
 			gps.addPartner(gp);
 			gps.addPartner(gp2);
 			gps.send(m2);
+			System.out.println("Sent");
 			
 			try {
 				Thread.sleep(3000);
@@ -117,14 +116,14 @@ public class TesterForMethods
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}
 		
-		SynchronizedLinkedListQueue ui = new SynchronizedLinkedListQueue();
+		/*SynchronizedLinkedListQueue ui = new SynchronizedLinkedListQueue();
 		SynchronizedLinkedListQueue peer = new SynchronizedLinkedListQueue();
 		UIController uic = new UIController(ui, peer);
 		PeerController pc = new PeerController(ui, peer);
 		
 		pc.start();
-		uic.start();
+		uic.start();*/
 	}
 }
