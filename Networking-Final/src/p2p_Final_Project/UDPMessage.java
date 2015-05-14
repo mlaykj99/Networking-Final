@@ -141,6 +141,10 @@ public class UDPMessage {
 		
 		return new DatagramPacket(data,0);
 	}
+	public void decrementTimeToLive()
+	{
+		this.timeToLive.set(this.timeToLive.get()-1);
+	}
 	public ID getId1() {
 		return this.id1;
 	}

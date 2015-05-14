@@ -1,9 +1,7 @@
 package p2p_Final_Project;
 
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
-import java.net.SocketException;
-import java.util.Scanner;
 
 public class PeerController
 {
@@ -17,6 +15,8 @@ public class PeerController
 	private SynchronizedLinkedListQueue peerQueue;
 	private DatagramSocket socket;
 	private QueueListener queueListener;
+	private RequestManager reqMan;
+	private ResourceManager resMan;
 	
 	public PeerController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue)
 	{
@@ -26,6 +26,9 @@ public class PeerController
 		this.outgoingPacketsToPeerQueue = new OutgoingPacketQueue();
 		this.commandProcessor = new CommandProcessor(null,null);
 		this.queueListener = new QueueListener(peerQueue, commandProcessor);
+		this.done = false;
+		this.reqMan = RequestManager.newInstance();
+		this.resMan = ResourceManager.newInstance();
 		try
 		{
 			this.socket = new DatagramSocket(54321);
@@ -43,13 +46,47 @@ public class PeerController
 		commandProcessor.register(new CommandGet("get","Used to request items from the peer community."));
 		commandProcessor.register(new CommandFind("find","Used to find items that others on the peer community have."));
 		commandProcessor.register(new CommandExit("exit","Used to exit the peer community."));
-		commandProcessor.register(new CommandClear("clear","Clears all resources found by find requests"));
 		
 		this.sendToPeers.startAsThread();
 		this.receiveFromPeers.startAsThread();
 		this.queueListener.startAsThread();
 		
+		while(!this.done)
+		{
+			if(!this.incomingPacketsFromPeerQueue.isEmpty())
+			{
+				DatagramPacket d = (DatagramPacket)this.incomingPacketsFromPeerQueue.deQueue();
+				UDPMessage msg = new UDPMessage(d);
+				if(reqMan.getRequest(msg.getId2()) != null)
+				{
+					RequestToFindResources requestFind = new RequestToFindResources(msg.getId2());
+					requestFind.updateRquest(msg);
+				}
+				else if((resMan.getResourcesThatMatch(new String(msg.getMessage(),0,msg.getMessage().length)).length < 1))
+				{
+					FindRequestFromPeer findRequest = new FindRequestFromPeer(msg);
+					findRequest.run();
+				}
+				else if(resMan.getResourceByID(msg.getId2()) != null)
+				{
+					GetRequestFromPeer getRequest = new GetRequestFromPeer(msg);
+					getRequest.run();
+				}
+				
+				msg.decrementTimeToLive();
+				if(msg.getTimeToLive().get() > 0)
+				{
+					this.outgoingPacketsToPeerQueue.enQueue(msg.getDatagramPacket());
+				}
+			}
+		}
+		
+		this.sendToPeers.stop();
+		this.receiveFromPeers.stop();
+		this.queueListener.stop();
 	}
+	
+	private void stop(){ this.done = true; }
 	
 	private void insert(CommandCall cc)
 	{
@@ -134,19 +171,6 @@ public class PeerController
 	{
 		
 		public CommandFind(String commandName,String description)
-		{
-			super(commandName,description);
-		}
-		public void run() {
-			// TODO Auto-generated method stub
-			
-		}
-	}
-	
-	private class CommandClear extends PeerControllerCommand
-	{
-		
-		public CommandClear(String commandName,String description)
 		{
 			super(commandName,description);
 		}

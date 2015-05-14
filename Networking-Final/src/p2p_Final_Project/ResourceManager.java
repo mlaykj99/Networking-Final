@@ -79,6 +79,10 @@ public class ResourceManager {
 		
 		return (Resource[])resources.toArray().clone();
 	}
+	public Resource getResourceByID(ID id)
+	{
+		return resourceDirectory.get(id);
+	}
 }
 
 
