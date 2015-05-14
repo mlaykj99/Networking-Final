@@ -6,9 +6,36 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 public class DatagramReceiveTester {
-	public static void main(String[] args)
+	public static void main(String[] args) throws InterruptedException, SocketException
 	{
-		try {
+		
+		IncomingPacketQueue ipq = new IncomingPacketQueue();
+		DatagramSocket ds = new DatagramSocket(54321);
+		DatagramReceiver dr = new DatagramReceiver(ds,ipq,UDPMessage.getMaximumPacketSize());
+		
+		dr.startAsThread();
+		
+		Thread.sleep(3000);
+		
+		
+		while(true)
+		{
+			//System.out.println("HI");
+			if(!ipq.isEmpty())
+			{
+				System.out.println(((DatagramPacket) ipq.deQueue()).getData().length);	
+			}
+		}
+		
+		
+	
+
+			
+			
+			
+			
+			/*
+			 try{
 			byte[] buffer = new byte[512];
 			DatagramSocket ds = new DatagramSocket(54321);
 			DatagramPacket dg = new DatagramPacket(buffer,buffer.length);
@@ -24,6 +51,7 @@ public class DatagramReceiveTester {
 				System.out.println("Waiting");
 				ds.receive(dg);
 				System.out.println(new String(dg.getData(),0,dg.getLength()));
+				System.out.println(dg.getLength());
 				System.out.println(dg.getData()[12] + " we received a packet a packet");
 				udpArray[i] = new UDPMessage(dg);
 				i++;
@@ -32,17 +60,7 @@ public class DatagramReceiveTester {
 			for(i = 0; i < udpArray.length;i++)
 			{
 					System.out.print(udpArray[i].getId1());
-			}
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			}			
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -50,5 +68,6 @@ public class DatagramReceiveTester {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		*/
 	}
 }
