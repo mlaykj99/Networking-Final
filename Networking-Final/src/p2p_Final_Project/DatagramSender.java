@@ -2,7 +2,6 @@ package p2p_Final_Project;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
 import java.net.SocketException;
 
 public class DatagramSender extends DatagramSenderReceiver
@@ -18,7 +17,10 @@ public class DatagramSender extends DatagramSenderReceiver
 		{ 
 			try
 			{
-				datagramSocket.send((DatagramPacket) queue.deQueue());
+				DatagramPacket dgp = (DatagramPacket) queue.deQueue();
+				System.out.println("Length: " + dgp.getLength());
+				datagramSocket.send(dgp);
+				Thread.sleep(1000);
 			} 
 			catch (Exception e)
 			{

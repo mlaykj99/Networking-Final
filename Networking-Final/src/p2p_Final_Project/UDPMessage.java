@@ -99,7 +99,7 @@ public class UDPMessage {
 		System.arraycopy(this.timeToLive.toByteArray(),0,data,ID.getIDLength()*2,TimeToLive.getLengthInBytes());
 		System.arraycopy(this.message,0,data,ID.getIDLength()*2+TimeToLive.getLengthInBytes(),this.message.length);
 		
-		return new DatagramPacket(data,0);
+		return new DatagramPacket(data,data.length);
 	}
 	public DatagramPacket getDatagramPacket(String message)
 	{
