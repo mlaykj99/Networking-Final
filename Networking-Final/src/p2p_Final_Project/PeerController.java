@@ -17,6 +17,7 @@ public class PeerController
 	private QueueListener queueListener;
 	private RequestManager reqMan;
 	private ResourceManager resMan;
+	private PacketManager packetMan;
 	
 	public PeerController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue)
 	{
@@ -29,6 +30,7 @@ public class PeerController
 		this.done = false;
 		this.reqMan = RequestManager.newInstance();
 		this.resMan = ResourceManager.newInstance();
+		this.packetMan = new PacketManager(this);
 		try
 		{
 			this.socket = new DatagramSocket(54321);
@@ -51,35 +53,7 @@ public class PeerController
 		this.receiveFromPeers.startAsThread();
 		this.queueListener.startAsThread();
 		
-		while(!this.done)
-		{
-			if(!this.incomingPacketsFromPeerQueue.isEmpty())
-			{
-				DatagramPacket d = (DatagramPacket)this.incomingPacketsFromPeerQueue.deQueue();
-				UDPMessage msg = new UDPMessage(d);
-				if(reqMan.getRequest(msg.getId2()) != null)
-				{
-					RequestToFindResources requestFind = new RequestToFindResources(msg.getId2());
-					requestFind.updateRquest(msg);
-				}
-				else if((resMan.getResourcesThatMatch(new String(msg.getMessage(),0,msg.getMessage().length)).length < 1))
-				{
-					FindRequestFromPeer findRequest = new FindRequestFromPeer(msg);
-					findRequest.run();
-				}
-				else if(resMan.getResourceByID(msg.getId2()) != null)
-				{
-					GetRequestFromPeer getRequest = new GetRequestFromPeer(msg);
-					getRequest.run();
-				}
-				
-				msg.decrementTimeToLive();
-				if(msg.getTimeToLive().get() > 0)
-				{
-					this.outgoingPacketsToPeerQueue.enQueue(msg.getDatagramPacket());
-				}
-			}
-		}
+		this.packetMan.startAsThread();
 		
 		this.sendToPeers.stop();
 		this.receiveFromPeers.stop();
@@ -92,13 +66,22 @@ public class PeerController
 	{
 		uiQueue.enQueue(cc);
 	}
-	private IncomingPacketQueue getIncoming()
+	
+	public IncomingPacketQueue getIncomingPacketsFromPeerQueue()
 	{
-		return this.incomingPacketsFromPeerQueue;
+		return incomingPacketsFromPeerQueue;
 	}
-	private OutgoingPacketQueue getOutgoing()
+	public OutgoingPacketQueue getOutgoingPacketsToPeerQueue()
 	{
-		return this.outgoingPacketsToPeerQueue;
+		return outgoingPacketsToPeerQueue;
+	}
+	public RequestManager getReqMan()
+	{
+		return reqMan;
+	}
+	public ResourceManager getResMan()
+	{
+		return resMan;
 	}
 	private abstract class PeerControllerCommand extends Command
 	{

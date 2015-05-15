@@ -12,7 +12,7 @@ public class UIController
 	private boolean 			done;
 	private SynchronizedLinkedListQueue uiQueue;
 	private SynchronizedLinkedListQueue peerQueue;
-	private Scanner keyboard;
+	//private Scanner keyboard;
 	private QueueListener queueListener;
 	
 	public UIController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue)
@@ -21,7 +21,7 @@ public class UIController
 		this.peerQueue = peerQueue;
 		this.done = false;
 		this.commandProcessor = new CommandProcessor(new CommandNone(),new CommandError());
-		this.keyboard = new Scanner(System.in);
+		//this.keyboard = new Scanner(System.in);
 		this.queueListener = new QueueListener(uiQueue, commandProcessor);
 	}
 	public void start()
@@ -38,7 +38,7 @@ public class UIController
 		
 		this.queueListener.startAsThread();
 		
-		System.out.println("Please enter a command. For help type help");
+		/*System.out.println("Please enter a command. For help type help");
 		line = keyboard.nextLine();
 		commandProcessor.getCommand(line).run();
 		
@@ -49,7 +49,8 @@ public class UIController
 			commandProcessor.getCommand(line).run();
 		}
 		commandProcessor.getCommand("exit").run();
-		keyboard.close();
+		keyboard.close();*/
+		System.out.println("In UI");
 	}
 	
 	private void insert(CommandCall cc)
@@ -57,7 +58,10 @@ public class UIController
 		peerQueue.enQueue(cc);
 	}
 	
-	private Scanner getKeyboard() { return this.keyboard; }
+	public CommandProcessor getCommandProcessor()
+	{
+		return this.commandProcessor;
+	}
 	
 	private abstract class UIControllerCommand extends Command
 	{
