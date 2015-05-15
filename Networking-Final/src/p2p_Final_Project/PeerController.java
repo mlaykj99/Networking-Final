@@ -54,13 +54,15 @@ public class PeerController
 		this.queueListener.startAsThread();
 		
 		this.packetMan.startAsThread();
-		
+	}
+	
+	private void stop()
+	{
 		this.sendToPeers.stop();
 		this.receiveFromPeers.stop();
 		this.queueListener.stop();
+		this.packetMan.stop();
 	}
-	
-	private void stop(){ this.done = true; }
 	
 	private void insert(CommandCall cc)
 	{
@@ -131,7 +133,7 @@ public class PeerController
 		}
 		public void run() 
 		{
-			
+			System.out.println("Join Command Ran in PeerCont");
 		}
 	}
 	
@@ -158,7 +160,7 @@ public class PeerController
 			super(commandName,description);
 		}
 		public void run() {
-			// TODO Auto-generated method stub
+			System.out.println("Find Ran in PeerCont");
 			
 		}
 	}
@@ -172,7 +174,7 @@ public class PeerController
 		
 		public void run()
 		{
-			//End
+			stop();
 		}
 		
 	}

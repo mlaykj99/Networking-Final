@@ -33,4 +33,9 @@ public class RequestManager {
 		}
 		requestDirectory.put(request.getID(),request);
 	}
+	
+	public void clearRequestDirectory()
+	{
+		this.requestDirectory.clear();
+	}
 }

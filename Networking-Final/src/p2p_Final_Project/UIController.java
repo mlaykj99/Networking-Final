@@ -1,10 +1,6 @@
 package p2p_Final_Project;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
-import java.net.SocketException;
-import java.util.Scanner;
+import p2p_GUI.FrameBruh;
 
 public class UIController
 {
@@ -14,6 +10,7 @@ public class UIController
 	private SynchronizedLinkedListQueue peerQueue;
 	//private Scanner keyboard;
 	private QueueListener queueListener;
+	private FrameBruh frame;
 	
 	public UIController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue)
 	{
@@ -51,6 +48,11 @@ public class UIController
 		commandProcessor.getCommand("exit").run();
 		keyboard.close();*/
 		System.out.println("In UI");
+	}
+	
+	public void setFrame(FrameBruh window)
+	{
+		this.frame = window;
 	}
 	
 	private void insert(CommandCall cc)
@@ -146,7 +148,8 @@ public class UIController
 		}
 		public void run() 
 		{
-			
+			CommandCall cc = new CommandCall("join");
+			peerQueue.enQueue(cc);
 		}
 	}
 	
@@ -172,9 +175,9 @@ public class UIController
 		{
 			super(commandName,description);
 		}
-		public void run() {
-			// TODO Auto-generated method stub
-			
+		public void run()
+		{
+			insert(new CommandCall("find","thingToFind"));
 		}
 	}
 	
@@ -185,9 +188,9 @@ public class UIController
 		{
 			super(commandName,description);
 		}
-		public void run() {
-			// TODO Auto-generated method stub
-			
+		public void run()
+		{
+			RequestManager.newInstance().clearRequestDirectory();
 		}
 	}
 	
@@ -212,7 +215,7 @@ public class UIController
 			super(commandName,description);
 		}
 		public void run() {
-			// TODO Auto-generated method stub
+			System.out.println("will return a resource list");
 			
 		}
 	}
@@ -227,8 +230,10 @@ public class UIController
 		public void run()
 		{
 			System.out.println("Thank you come again.");
-			queueListener.stop();
 			//tell peer controller to be done.
+			insert(new CommandCall("stop"));
+			
+			queueListener.stop();
 		}
 		
 	}

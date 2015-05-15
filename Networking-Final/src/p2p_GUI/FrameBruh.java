@@ -40,6 +40,8 @@ public class FrameBruh extends JFrame implements ActionListener, KeyListener
 					
 					//Frame built. now start everything
 					start();
+					
+					//uic.setFrame();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
