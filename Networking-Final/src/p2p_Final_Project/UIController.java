@@ -47,12 +47,11 @@ public class UIController
 		}
 		commandProcessor.getCommand("exit").run();
 		keyboard.close();*/
-		System.out.println("In UI");
 	}
 	
-	public void setFrame(FrameBruh window)
+	public void setFrame(FrameBruh frame)
 	{
-		this.frame = window;
+		this.frame = frame;
 	}
 	
 	private void insert(CommandCall cc)
@@ -112,7 +111,7 @@ public class UIController
 			Command[] allCommands = getCommandProcessor().getAllCommands();
 			for(int i = 0;i < allCommands.length; i++)
 			{
-				println(allCommands.toString());
+				frame.updateTextArea(allCommands[i].toString());
 			}
 			
 		}
@@ -126,7 +125,7 @@ public class UIController
 		@Override
 		public void run() 
 		{
-			println("Sorry an error occured.");
+			frame.updateTextArea("Sorry an error occured.");
 		}
 	}
 	private class CommandNone extends UIControllerCommand
@@ -137,7 +136,7 @@ public class UIController
 		}
 
 		public void run() {
-			println("Sorry that command does not exist. Type help for a list of commands.");
+			frame.updateTextArea("Sorry that command does not exist. Type help for a list of commands.");
 		}
 	}
 	private class CommandJoin extends UIControllerCommand
@@ -191,6 +190,7 @@ public class UIController
 		public void run()
 		{
 			RequestManager.newInstance().clearRequestDirectory();
+			frame.updateTextArea("Request List Cleared");
 		}
 	}
 	
@@ -203,7 +203,7 @@ public class UIController
 		}
 		public void run()
 		{
-			System.out.println("Saved!");
+			frame.updateTextArea("Saved!");
 		}
 	}
 	
@@ -215,7 +215,7 @@ public class UIController
 			super(commandName,description);
 		}
 		public void run() {
-			System.out.println("will return a resource list");
+			frame.updateTextArea("will return a resource list");
 			
 		}
 	}
@@ -229,7 +229,7 @@ public class UIController
 		
 		public void run()
 		{
-			System.out.println("Thank you come again.");
+			frame.updateTextArea("Thank you come again.");
 			//tell peer controller to be done.
 			insert(new CommandCall("stop"));
 			

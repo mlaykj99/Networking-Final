@@ -1,35 +1,33 @@
 package p2p_GUI;
 
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import p2p_Final_Project.Command;
 import p2p_Final_Project.PeerController;
 import p2p_Final_Project.SynchronizedLinkedListQueue;
 import p2p_Final_Project.UIController;
 
-public class FrameBruh extends JFrame implements ActionListener, KeyListener
+public class FrameBruh extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
-	private JPanel panel;
+	private JScrollPane panel;
 	private JButton btnSend;
 	private JTextArea textArea;
 	
-	private static SynchronizedLinkedListQueue ui;
-	private static SynchronizedLinkedListQueue peer;
-	private static UIController uic;
-	private static PeerController pc;
+	private SynchronizedLinkedListQueue ui;
+	private SynchronizedLinkedListQueue peer;
+	private UIController uic;
+	private PeerController pc;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -39,9 +37,8 @@ public class FrameBruh extends JFrame implements ActionListener, KeyListener
 					frame.setVisible(true);
 					
 					//Frame built. now start everything
-					start();
+					frame.start();
 					
-					//uic.setFrame();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -51,7 +48,6 @@ public class FrameBruh extends JFrame implements ActionListener, KeyListener
 
 	public FrameBruh() 
 	{
-		System.out.println("Starting Frame");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 600);
 		setTitle("Networking Final");
@@ -59,58 +55,76 @@ public class FrameBruh extends JFrame implements ActionListener, KeyListener
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		panel = new JPanel();
-		panel.setBounds(0, 0, 884, 562);
-		contentPane.add(panel);
-		panel.setLayout(null);
+		setResizable(false);
 		
 		textField = new JTextField();
 		textField.setBounds(10, 531, 765, 20);
-		panel.add(textField);
 		textField.setColumns(10);
-		textField.addKeyListener(this);
 		
 		btnSend = new JButton("Send");
 		btnSend.setBounds(785, 530, 89, 23);
-		btnSend.addActionListener(this);
 		btnSend.setActionCommand("Send");
-		panel.add(btnSend);
 		
 		textArea = new JTextArea("Enter a command. (Type 'help' for a list of commands)");
 		textArea.setBounds(10, 11, 864, 509);
 		textArea.setEditable(false);
+		
+		panel = new Pane(this);
+		panel.setBounds(0, 0, 884, 562);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		panel.add(textField);
+		panel.add(btnSend);
 		panel.add(textArea);
 		
 		textField.setFocusable(true);
 		textField.requestFocus();
-		System.out.println("Ending Frame");
 	}
 	
-	private static void start()
+	private void start()
 	{
-		System.out.println("Starting other");
 		ui = new SynchronizedLinkedListQueue();
 		peer = new SynchronizedLinkedListQueue();
 		uic = new UIController(ui, peer);
 		pc = new PeerController(ui, peer);
+		uic.setFrame(this);
 		
-		//pc.start();
+		pc.start();
 		uic.start();
-		System.out.println("Ending Other");
 	}
 	
-	private void sendCommand()
+	public JTextField getTextField()
+	{
+		return this.textField;
+	}
+	
+	public JButton getBtnSend()
+	{
+		return this.btnSend;
+	}
+	
+	public void sendCommand()
 	{
 		String txt = textField.getText();
+		Command cmd;
 		
 		if(!txt.equalsIgnoreCase("exit"))
 		{
 			//send to ui controller
-			uic.getCommandProcessor().getCommand(txt).run();
+			cmd = uic.getCommandProcessor().getCommand(txt);
 			
-			//display on textarea
-			this.textArea.setText(this.textArea.getText() + "\n" + txt);
+			if(cmd != null)
+			{
+				//display on textarea
+				updateTextArea(txt);
+				cmd.run();
+			}
+			else
+			{
+				//Display not a command
+				updateTextArea(txt + " is not a command. Type help for a list of commands.");
+			}
 			this.textField.setText("");
 		}
 		else
@@ -119,30 +133,9 @@ public class FrameBruh extends JFrame implements ActionListener, KeyListener
 			this.dispose();
 		}
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e)
+	
+	public void updateTextArea(String txt)
 	{
-		String cmd = e.getActionCommand();
-		
-		if(cmd.equalsIgnoreCase("Send"))
-		{
-			sendCommand();
-		}
+		this.textArea.setText(this.textArea.getText() + "\n" + txt);
 	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {}
-
-	@Override
-	public void keyPressed(KeyEvent e) 
-	{
-		if(e.getKeyCode() == KeyEvent.VK_ENTER)
-		{
-			sendCommand();
-		}
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {}
 }
