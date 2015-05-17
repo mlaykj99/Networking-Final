@@ -27,7 +27,7 @@ public class TimeToLive
 	
 	public void set(int timeToLive)
 	{ 
-		if( timeToLive < 0 ) { throw new IllegalArgumentException("TimeToLive.set: timeToLive is less then 1!"); }
+		if( timeToLive < -1 ) { throw new IllegalArgumentException("TimeToLive.set: timeToLive is less then 1!"); }
 		this.timeToLive = timeToLive; 
 	}
 	
