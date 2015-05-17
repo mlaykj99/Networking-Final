@@ -75,7 +75,10 @@ public class PeerController
 	{
 		uiQueue.enQueue(cc);
 	}
-	
+	public GossipPartners getPartners()
+	{
+		return this.partners;
+	}
 	public IncomingPacketQueue getIncomingPacketsFromPeerQueue()
 	{
 		return incomingPacketsFromPeerQueue;
@@ -169,7 +172,7 @@ public class PeerController
 		public void run() {
 			Request request;
 			byte[] message;
-			DatagramPacket packet;
+			UDPMessage udpMessage;
 			TimeToLive ttl;
 			
 			ttl = new TimeToLive(Utilities.randomInt());
@@ -177,10 +180,8 @@ public class PeerController
 			
 			
 			System.out.println(this.getParameters());
-			message = Utilities.arrayCopy(request.getID().getBytes(),ID.idFactory().getBytes(),ttl.toByteArray(),this.getParameters().getBytes());
-			
-			packet = new DatagramPacket(message,message.length);
-			getOutgoingPacketsToPeerQueue().enQueue(packet);
+			udpMessage = new UDPMessage(request.getID(),ID.idFactory(),ttl,this.getParameters())
+			getPartners().send(udpMessage);
 		}
 	}
 	
