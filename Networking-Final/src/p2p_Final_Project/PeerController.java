@@ -43,6 +43,7 @@ public class PeerController
 		{
 			e.printStackTrace();
 		}
+		partners = GossipPartners.newInstance();
 		
 		partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 54321) , outgoingPacketsToPeerQueue));
 		partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.421.104" , 54321) , outgoingPacketsToPeerQueue));

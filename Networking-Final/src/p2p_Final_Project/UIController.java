@@ -161,9 +161,8 @@ public class UIController
 		
 		public void run()
 		{
-			CommandCall test = new CommandCall("get", "dogs");
+			CommandCall test = new CommandCall("get", this.getParameters());
 			insert(test);
-			System.out.println("Inserted into peer queue.");
 		}
 	}
 	
