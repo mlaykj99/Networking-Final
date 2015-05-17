@@ -231,7 +231,7 @@ public class UIController
 		{
 			frame.updateTextArea("Thank you come again.");
 			//tell peer controller to be done.
-			insert(new CommandCall("stop"));
+			insert(new CommandCall("exit"));
 			
 			queueListener.stop();
 		}
