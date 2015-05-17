@@ -106,10 +106,11 @@ public class Resource {
 	}
 	public boolean matches(String searchString)
 	{
+		searchString = searchString.toLowerCase();
 		System.out.println("Name of file: "+ file.getName());
 		System.out.println("File Description: "+ description);
 		System.out.println("Comparing to "+ searchString);
-		return  file.getName().contains(searchString) || description.contains(searchString);
+		return  file.getName().toLowerCase().contains(searchString) || description.toLowerCase().contains(searchString);
 	}
 
 }
