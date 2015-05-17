@@ -9,7 +9,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 	public FindRequestFromPeer(UDPMessage message, OutgoingPacketQueue outgoing) //Add reference to queue from peer controller when constructed as instance var
 	{
 		super(message,outgoing);
-		delimeter = ",";
+		delimeter = ",".getBytes();
 	}
 
 	@Override
