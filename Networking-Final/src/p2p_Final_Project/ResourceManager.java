@@ -48,7 +48,7 @@ public class ResourceManager {
 					File resource = new File(filePath);
 					
 					raf = new RandomAccessFile(resource, "r");
-					data = file.getPath() + " " + mimeTypesMap.getContentType(resource) + " " + raf.readLine();
+					data = resource.getPath() + " " + mimeTypesMap.getContentType(resource) + " " + raf.readLine();
 					temp = new Resource(ID.idFactory(),data);
 					
 					resourceDirectory.put(temp.getResourceID(), temp);
