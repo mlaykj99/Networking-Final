@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import p2p_GUI.FrameBruh;
+
 public class ResponsesToOurFinds {
 
 	private ArrayList<ID> responses;
 	private JFrame display;
 	
-	public ResponsesToOurFinds(JFrame frame)
+	public ResponsesToOurFinds(FrameBruh frame)
 	{
 		this.responses = new ArrayList<ID>();
 		this.display = frame;

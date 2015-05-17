@@ -26,6 +26,7 @@ public class FrameBruh extends JFrame
 	private JScrollPane panel;
 	private JButton btnSend;
 	private JTextArea textArea;
+	private JTextArea textArea2;
 	
 	private SynchronizedLinkedListQueue ui;
 	private SynchronizedLinkedListQueue peer;
@@ -53,7 +54,7 @@ public class FrameBruh extends JFrame
 	public FrameBruh() 
 	{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 600);
+		setBounds(100, 100, 1200, 600);
 		setTitle("Networking Final");
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,25 +63,30 @@ public class FrameBruh extends JFrame
 		setResizable(false);
 		
 		textField = new JTextField();
-		textField.setBounds(10, 531, 765, 20);
+		textField.setBounds(10, 531, 565, 20);
 		textField.setColumns(10);
 		
 		btnSend = new JButton("Send");
-		btnSend.setBounds(785, 530, 89, 23);
+		btnSend.setBounds(585, 530, 89, 23);
 		btnSend.setActionCommand("Send");
 		
 		textArea = new JTextArea("Enter a command. (Type 'help' for a list of commands)");
-		textArea.setBounds(10, 11, 864, 509);
+		textArea.setBounds(10, 11, 664, 509);
 		textArea.setEditable(false);
 		
+		textArea2 = new JTextArea();
+		textArea2.setBounds(684, 11, 500, 509);
+		textArea2.setEditable(false);
+		
 		panel = new Pane(this);
-		panel.setBounds(0, 0, 884, 562);
+		panel.setBounds(0, 0, 1184, 562);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		panel.add(textField);
 		panel.add(btnSend);
 		panel.add(textArea);
+		panel.add(textArea2);
 		
 		textField.setFocusable(true);
 		textField.requestFocus();

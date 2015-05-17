@@ -5,6 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
+import p2p_GUI.FrameBruh;
+
 public class PeerController
 {
 	private CommandProcessor 	commandProcessor;
@@ -21,6 +23,7 @@ public class PeerController
 	private ResourceManager resMan;
 	private PacketManager packetMan;
 	private GossipPartners partners;
+	private FrameBruh frame;
 	
 	
 	public PeerController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue)
@@ -34,7 +37,7 @@ public class PeerController
 		this.done = false;
 		this.reqMan = RequestManager.newInstance();
 		this.resMan = ResourceManager.newInstance();
-		this.packetMan = new PacketManager(this);
+		this.packetMan = new PacketManager(this, frame);
 		try
 		{
 			this.socket = new DatagramSocket(12345);
@@ -76,6 +79,11 @@ public class PeerController
 		this.receiveFromPeers.stop();
 		this.queueListener.stop();
 		this.packetMan.stop();
+	}
+	
+	public void setFrame(FrameBruh frame)
+	{
+		this.frame = frame;
 	}
 	
 	private void insert(CommandCall cc)
