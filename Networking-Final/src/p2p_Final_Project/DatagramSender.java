@@ -19,7 +19,6 @@ public class DatagramSender extends DatagramSenderReceiver
 			{
 				DatagramPacket dgp = (DatagramPacket) queue.deQueue();
 				datagramSocket.send(dgp);
-				Thread.sleep(100);
 			} 
 			catch (Exception e)
 			{
@@ -29,6 +28,11 @@ public class DatagramSender extends DatagramSenderReceiver
 		else
 		{
 			ID.generateID();
+		}
+		try {
+			Thread.sleep(1);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }
