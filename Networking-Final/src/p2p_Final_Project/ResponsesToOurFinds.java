@@ -9,12 +9,14 @@ import p2p_GUI.FrameBruh;
 public class ResponsesToOurFinds {
 
 	private ArrayList<ID> responses;
-	private JFrame display;
+	private FrameBruh display;
 	
 	public ResponsesToOurFinds(FrameBruh frame)
 	{
 		this.responses = new ArrayList<ID>();
 		this.display = frame;
+		
+		display.getTextArea2().setText(" Finds.");;
 	}
 	
 	public void updateResponses(UDPMessage msg)

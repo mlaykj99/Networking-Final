@@ -1,9 +1,10 @@
 package p2p_Final_Project;
 
 import java.io.File;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+
+import p2p_GUI.FrameBruh;
 
 public class PeerController
 {
@@ -21,9 +22,10 @@ public class PeerController
 	private ResourceManager resMan;
 	private PacketManager packetMan;
 	private GossipPartners partners;
+	private FrameBruh frame;
 	
 	
-	public PeerController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue)
+	public PeerController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue, FrameBruh frame)
 	{
 		this.uiQueue = uiQueue;
 		this.peerQueue = peerQueue;
@@ -34,7 +36,8 @@ public class PeerController
 		this.done = false;
 		this.reqMan = RequestManager.newInstance();
 		this.resMan = ResourceManager.newInstance();
-		this.packetMan = new PacketManager(this);
+		this.frame = frame;
+		this.packetMan = new PacketManager(this, frame);
 		try
 		{
 			this.socket = new DatagramSocket(12345);
