@@ -107,17 +107,27 @@ public class FrameBruh extends JFrame
 	public void sendCommand()
 	{
 		String txt = textField.getText();
+		String param = "";
 		Command cmd;
 		
+		txt = txt.toLowerCase();
 		if(!txt.equalsIgnoreCase("exit"))
 		{
+			if(txt.indexOf(" ") > -1)
+			{
+				param = txt.substring(txt.indexOf(" ")+1);
+				txt = txt.substring(0,txt.indexOf(" "));
+			}
+			
 			//send to ui controller
 			cmd = uic.getCommandProcessor().getCommand(txt);
 			
 			if(cmd != null)
 			{
 				//display on textarea
-				updateTextArea(txt);
+				updateTextArea(txt + param);
+				
+				cmd.setParameters(param);
 				cmd.run();
 			}
 			else
