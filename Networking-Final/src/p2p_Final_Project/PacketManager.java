@@ -27,14 +27,15 @@ public class PacketManager implements Runnable
 					RequestToFindResources requestFind = new RequestToFindResources(msg.getId2());
 					requestFind.updateRquest(msg);
 				}
+				//This should be a default else that always assumes that a resource exists until proven otherwise
 				else if((pc.getResMan().getResourcesThatMatch(new String(msg.getMessage(),0,msg.getMessage().length)).length < 1))
 				{
-					FindRequestFromPeer findRequest = new FindRequestFromPeer(msg);
+					FindRequestFromPeer findRequest = new FindRequestFromPeer(msg, pc.getOutgoingPacketsToPeerQueue());
 					findRequest.run();
 				}
 				else if(pc.getResMan().getResourceByID(msg.getId2()) != null)
 				{
-					GetRequestFromPeer getRequest = new GetRequestFromPeer(msg);
+					GetRequestFromPeer getRequest = new GetRequestFromPeer(msg, pc.getOutgoingPacketsToPeerQueue());
 					getRequest.run();
 				}
 				
