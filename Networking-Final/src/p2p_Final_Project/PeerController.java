@@ -2,6 +2,7 @@ package p2p_Final_Project;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
 
 public class PeerController
 {
@@ -18,6 +19,7 @@ public class PeerController
 	private RequestManager reqMan;
 	private ResourceManager resMan;
 	private PacketManager packetMan;
+	private GossipPartners partners;
 	
 	public PeerController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue)
 	{
@@ -41,6 +43,11 @@ public class PeerController
 		{
 			e.printStackTrace();
 		}
+		
+		partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 54321) , outgoingPacketsToPeerQueue));
+		partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.421.104" , 54321) , outgoingPacketsToPeerQueue));
+
+		
 	}
 	public void start()
 	{

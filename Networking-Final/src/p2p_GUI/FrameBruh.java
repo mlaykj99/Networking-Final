@@ -1,6 +1,7 @@
 package p2p_GUI;
 
 import java.awt.EventQueue;
+import java.net.InetSocketAddress;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,6 +12,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import p2p_Final_Project.Command;
+import p2p_Final_Project.GossipPartner;
+import p2p_Final_Project.GossipPartners;
 import p2p_Final_Project.PeerController;
 import p2p_Final_Project.SynchronizedLinkedListQueue;
 import p2p_Final_Project.UIController;
@@ -28,6 +31,7 @@ public class FrameBruh extends JFrame
 	private SynchronizedLinkedListQueue peer;
 	private UIController uic;
 	private PeerController pc;
+
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -120,12 +124,13 @@ public class FrameBruh extends JFrame
 			}
 			
 			//send to ui controller
+			updateTextArea(txt+"hi");
 			cmd = uic.getCommandProcessor().getCommand(txt);
 			
 			if(cmd != null)
 			{
 				//display on textarea
-				updateTextArea(txt + param);
+				updateTextArea(txt +" "+ param);
 				
 				cmd.setParameters(param);
 				cmd.run();
