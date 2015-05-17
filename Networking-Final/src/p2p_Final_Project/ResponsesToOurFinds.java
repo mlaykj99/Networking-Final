@@ -16,7 +16,7 @@ public class ResponsesToOurFinds {
 		this.responses = new ArrayList<ID>();
 		this.display = frame;
 		
-		display.getTextArea2().setText(" Finds.");;
+		display.getTextArea2().setText(" Finds.");
 	}
 	
 	public void updateResponses(UDPMessage msg)
@@ -27,12 +27,14 @@ public class ResponsesToOurFinds {
 		if(!this.responses.contains(msg.getId1()))
 		{
 			this.responses.add(msg.getId1());
-			//frame.update
 			//use parsing and fun stuff
 			hold = new String(msg.getMessage(),ID.getIDLength(),msg.getMessage().length);
 			delimeter = hold.charAt(0)+"";
 			hold = hold.substring(1);
 			stuff = hold.split(delimeter);
+			
+			//frame.update
+			display.getTextArea2().setText(display.getTextArea2().getText() + "\n Type: " + stuff[0] + "\tLength: " + stuff[1] + "\tDescription: " + stuff[2]);			
 		}
 	}
 	
