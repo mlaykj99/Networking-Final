@@ -35,7 +35,7 @@ public class PeerController
 		this.packetMan = new PacketManager(this);
 		try
 		{
-			this.socket = new DatagramSocket(54321);
+			this.socket = new DatagramSocket(12345);
 			this.receiveFromPeers = new DatagramReceiver(socket, incomingPacketsFromPeerQueue, 512);
 			this.sendToPeers = new DatagramSender(socket, outgoingPacketsToPeerQueue, 512);
 		}
@@ -45,7 +45,7 @@ public class PeerController
 		}
 		partners = GossipPartners.newInstance();
 		
-		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 12345) , outgoingPacketsToPeerQueue));
+		partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 12345) , outgoingPacketsToPeerQueue));
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.421.104" , 12345) , outgoingPacketsToPeerQueue));
 		partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.209" , 12345) , outgoingPacketsToPeerQueue));
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.61.151" , 12345) , outgoingPacketsToPeerQueue));

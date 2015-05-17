@@ -42,7 +42,7 @@ public class PacketManager implements Runnable
 				msg.decrementTimeToLive();
 				if(msg.getTimeToLive().get() > 0)
 				{
-					pc.getOutgoingPacketsToPeerQueue().enQueue(msg.getDatagramPacket());
+					GossipPartners.getInstance().send(msg);
 				}
 			}
 		}

@@ -51,6 +51,7 @@ public class GossipPartner {
 		dgp = message.getDatagramPacket();
 		dgp.setAddress(this.gossipPartnerAddress.getAddress());
 		dgp.setPort(this.gossipPartnerAddress.getPort());
+		System.out.println(dgp.getAddress());
 		this.queue.enQueue(dgp);
 	}
 }
