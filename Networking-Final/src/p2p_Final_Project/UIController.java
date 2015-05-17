@@ -176,7 +176,7 @@ public class UIController
 		}
 		public void run()
 		{
-			insert(new CommandCall("find","thingToFind"));
+			insert(new CommandCall("find", this.getParameters()));
 		}
 	}
 	
