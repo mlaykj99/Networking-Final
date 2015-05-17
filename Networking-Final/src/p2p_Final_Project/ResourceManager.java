@@ -65,7 +65,7 @@ public class ResourceManager {
 	public Resource[] getResourcesThatMatch(String searchString)
 	{
 		ArrayList<Resource> resources;
-		
+		Resource[] result;
 		resources = new ArrayList<Resource>();
 		
 		//Search Map for resources
@@ -76,8 +76,10 @@ public class ResourceManager {
 				resources.add(listOfMap.get(i));
 			}
 		}
+		result = new Resource[resources.size()];
+		resources.toArray(result);
 		
-		return (Resource[])resources.toArray().clone();
+		return result;
 	}
 	public Resource getResourceByID(ID id)
 	{
