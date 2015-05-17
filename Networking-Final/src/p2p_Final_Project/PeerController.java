@@ -146,9 +146,9 @@ public class PeerController
 		
 		public void run()
 		{
-			CommandCall test = new CommandCall("save");
-			insert(test);
-			System.out.println("Inserted into ui queue.");
+			int requestID = Integer.parseInt(this.getParameters());
+			
+			
 		}
 	}
 	
@@ -160,8 +160,20 @@ public class PeerController
 			super(commandName,description);
 		}
 		public void run() {
-			System.out.println("Find Ran in PeerCont");
+			Request request;
+			byte[] message;
+			DatagramPacket packet;
+			TimeToLive ttl;
 			
+			ttl = new TimeToLive(Utilities.randomInt());
+			request = new RequestToFindResources(ID.idFactory());
+			
+			
+			System.out.println(this.getParameters());
+			message = Utilities.arrayCopy(request.getID().getBytes(),ID.idFactory().getBytes(),ttl.toByteArray(),this.getParameters().getBytes());
+			
+			packet = new DatagramPacket(message,message.length);
+			getOutgoingPacketsToPeerQueue().enQueue(packet);
 		}
 	}
 	
