@@ -106,7 +106,7 @@ public class Resource {
 	}
 	public boolean matches(String searchString)
 	{
-		return  description.contains(searchString);
+		return  file.getName().contains(searchString) || description.contains(searchString);
 	}
 
 }
