@@ -53,7 +53,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			resourceLength = Utilities.longToBytes(resourcesThatMatch[i].getSizeInBytes());
 			description = resourcesThatMatch[i].getDescription().getBytes();
 			System.out.println("Created the response.");
-			response = Utilities.arrayCopy( randomID,delimeter)mimeType,resourceLength,description);
+			response = Utilities.arrayCopy(Utilities.arrayCopy( randomID,delimeter),mimeType,resourceLength,description);
 			request = new UDPMessage(resourceID, originatingID, timeToLive,response);
 			
 			
