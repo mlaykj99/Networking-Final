@@ -97,7 +97,7 @@ public class FrameBruh extends JFrame
 		ui = new SynchronizedLinkedListQueue();
 		peer = new SynchronizedLinkedListQueue();
 		uic = new UIController(ui, peer);
-		pc = new PeerController(ui, peer);
+		pc = new PeerController(ui, peer, this);
 		uic.setFrame(this);
 		
 		pc.start();
@@ -112,6 +112,11 @@ public class FrameBruh extends JFrame
 	public JButton getBtnSend()
 	{
 		return this.btnSend;
+	}
+	
+	public JTextArea getTextArea2()
+	{
+		return textArea2;
 	}
 	
 	public void sendCommand()
