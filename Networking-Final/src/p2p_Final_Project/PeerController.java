@@ -45,9 +45,10 @@ public class PeerController
 		}
 		partners = GossipPartners.newInstance();
 		
-		partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 54321) , outgoingPacketsToPeerQueue));
-		partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.421.104" , 54321) , outgoingPacketsToPeerQueue));
-
+		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 54321) , outgoingPacketsToPeerQueue));
+		//partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.421.104" , 54321) , outgoingPacketsToPeerQueue));
+		partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.209" , 54321) , outgoingPacketsToPeerQueue));
+		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.61.151" , 54321) , outgoingPacketsToPeerQueue));
 		
 	}
 	public void start()
@@ -181,7 +182,7 @@ public class PeerController
 			
 			
 			System.out.println(this.getParameters());
-			udpMessage = new UDPMessage(request.getID(),ID.idFactory(),ttl,this.getParameters())
+			udpMessage = new UDPMessage(request.getID(),ID.idFactory(),ttl,this.getParameters());
 			getPartners().send(udpMessage);
 		}
 	}
