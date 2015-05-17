@@ -106,6 +106,9 @@ public class Resource {
 	}
 	public boolean matches(String searchString)
 	{
+		System.out.println("Name of file: "+ file.getName());
+		System.out.println("File Description: "+ description);
+		System.out.println("Comparing to "+ searchString);
 		return  file.getName().contains(searchString) || description.contains(searchString);
 	}
 

@@ -39,6 +39,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		originatingID = request.getId1().getBytes();
 		
 		rm = ResourceManager.newInstance();
+		System.out.println("Searching for: "+new String (getUDPMessage().getMessage(),0,getUDPMessage().getMessage().length));
 		resourcesThatMatch = rm.getResourcesThatMatch(new String (getUDPMessage().getMessage(),0,getUDPMessage().getMessage().length));
 		
 		for(int i = 0; i < resourcesThatMatch.length;i++)
