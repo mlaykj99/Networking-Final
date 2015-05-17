@@ -4,7 +4,7 @@ import java.net.DatagramPacket;
 
 public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 
-	private String delimeter;
+	private byte[] delimeter;
 	
 	public FindRequestFromPeer(UDPMessage message, OutgoingPacketQueue outgoing) //Add reference to queue from peer controller when constructed as instance var
 	{
@@ -23,9 +23,9 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		OutgoingPacketQueue outgoing;
 		UDPMessage request;
 		DatagramPacket packet;
-		byte[] originatingID;
-		byte[] resourceID;
-		byte[] timeToLive;
+		ID originatingID;
+		ID resourceID;
+		TimeToLive timeToLive;
 		byte[] randomID;
 		byte[] resourceLength;
 		byte[] mimeType;
@@ -36,7 +36,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		
 		outgoing = this.getOutgoingPacketQueue();
 		request = this.getUDPMessage();
-		originatingID = request.getId1().getBytes();
+		originatingID = request.getId1();
 		
 		rm = ResourceManager.newInstance();
 		System.out.println("Searching for: "+new String (getUDPMessage().getMessage(),0,getUDPMessage().getMessage().length));
@@ -45,17 +45,19 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		for(int i = 0; i < resourcesThatMatch.length;i++)
 		{
 			System.out.println("Found a resource.");
-			resourceID = resourcesThatMatch[i].getResourceID().getBytes();
-			timeToLive = (new TimeToLive(Utilities.randomInt()).toByteArray());
+			resourceID = resourcesThatMatch[i].getResourceID();
+			timeToLive = (new TimeToLive(Utilities.randomInt()));
 			randomID = ID.idFactory().getBytes();
-			delimeter = this.delimeter.getBytes();
+			delimeter = this.delimeter;
 			mimeType = resourcesThatMatch[i].getMimeType().getBytes();
 			resourceLength = Utilities.longToBytes(resourcesThatMatch[i].getSizeInBytes());
 			description = resourcesThatMatch[i].getDescription().getBytes();
 			System.out.println("Created the response.");
-			response = Utilities.arrayCopy(Utilities.arrayCopy(resourceID, originatingID, timeToLive, randomID),delimeter,mimeType,resourceLength,description);
-			packet = new DatagramPacket(response,response.length);
-			outgoing.enQueue(packet);
+			response = Utilities.arrayCopy( randomID,delimeter)mimeType,resourceLength,description);
+			request = new UDPMessage(resourceID, originatingID, timeToLive,response);
+			
+			
+			
 			System.out.println("Response put in queue.");
 		}
 	}
