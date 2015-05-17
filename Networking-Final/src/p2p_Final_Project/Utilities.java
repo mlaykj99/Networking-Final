@@ -37,7 +37,7 @@ public class Utilities {
 	public static int randomInt()
 	{
 		int random;
-		random =  (int) Math.random()*10 + 10;
+		random =  (int) Math.random()*3+3;
 		
 		return random;
 	}
