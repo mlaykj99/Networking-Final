@@ -1,5 +1,7 @@
 package p2p_Final_Project;
 
+import java.net.DatagramPacket;
+
 public class GetRequestFromPeer extends RequestFromPeer implements Runnable {
 
 	public GetRequestFromPeer(UDPMessage message , OutgoingPacketQueue outgoing) //Add reference to queue from peer controller when constructed as instance var
@@ -13,6 +15,7 @@ public class GetRequestFromPeer extends RequestFromPeer implements Runnable {
 		// TODO create packet with requested part info
 		//place in outgoing peer queue
 		ResourceManager rm = ResourceManager.getInstance();
+		DatagramPacket packet;
 		Resource resource;
 		int partNumberAsInt;
 		int resourceIDAsInt;
@@ -22,25 +25,20 @@ public class GetRequestFromPeer extends RequestFromPeer implements Runnable {
 		byte[] randomID;
 		byte[] partNumber;
 		byte[] bytesFromResource;
+		byte[] message;
 		
 		requestID = this.getUDPMessage().getId1().getBytes();
 		resourceID = this.getUDPMessage().getId2().getBytes();
-		resourceIDAsInt =  Utilities.bytesToInt(requestID);
+		resource = rm.getResourceByID(new ID(resourceID));
 		timeToLive = (new TimeToLive(Utilities.randomInt()).toByteArray());
 		randomID = ID.idFactory().getBytes();
 		partNumber = getPartNumber();
 		partNumberAsInt =  Utilities.bytesToInt(partNumber);
+		bytesFromResource = resource.getBytes(partNumberAsInt);	
 		
+		message = Utilities.arrayCopy(Utilities.arrayCopy(resourceID,requestID,timeToLive,randomID,partNumber),bytesFromResource);
 		
-		
-		/*
-		RandomAccessFile f = new RandomAccessFile(fileName, "r");
-		byte[] b = new byte[(int)f.length()];
-		f.read(b);
-		*/
-		
-		
-		
+		packet = new DatagramPacket(message,message.length);
 
 	}
 	
