@@ -2,9 +2,9 @@ package p2p_Final_Project;
 
 import java.util.ArrayList;
 
-public class RequestToFindResources extends Request {
+public class RequestToFindResources extends Request implements Runnable {
 	
-	ArrayList<ID> responses;
+	ArrayList<UDPMessage> responses;
 	
 	public RequestToFindResources(ID requestID) 
 	{
@@ -12,7 +12,15 @@ public class RequestToFindResources extends Request {
 	}
 	public void updateRquest(UDPMessage udpMessage) 
 	{
-		//connects with ui controller to determine actions
+		
+	}
+	@Override
+	public void run() {
+		
+	}
+	public void startAsThread()
+	{
+		this.run();
 	}
 
 }

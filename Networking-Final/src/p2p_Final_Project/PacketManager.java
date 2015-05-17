@@ -2,15 +2,18 @@ package p2p_Final_Project;
 
 import java.net.DatagramPacket;
 
+import javax.swing.JFrame;
+
 public class PacketManager implements Runnable
 {
 	private PeerController pc;
 	private boolean done;
-	
+	private ResponsesToOurFinds responsesToOurFinds;
 	public PacketManager(PeerController pc)
 	{
 		this.pc = pc;
 		this.done = false;
+		this.responsesToOurFinds(new Jframe());
 	}
 
 	@Override
@@ -25,8 +28,12 @@ public class PacketManager implements Runnable
 				UDPMessage msg = new UDPMessage(d);
 				if(pc.getReqMan().getRequest(msg.getId2()) != null)
 				{
-					RequestToFindResources requestFind = new RequestToFindResources(msg.getId2());
-					requestFind.updateRquest(msg);
+					ResponsesToOurFinds requestFind = new ResponsesToOurFinds(new JFrame());
+					requestFind.updateResponses(msg);
+				}
+				else if(pc.getReqMan().getRequest(msg.getId2()) != null)
+				{
+					
 				}
 				else if(pc.getResMan().getResourceByID(msg.getId2()) != null)
 				{
@@ -35,6 +42,7 @@ public class PacketManager implements Runnable
 				}
 				else
 				{
+					System.out.println("Attempting to find resource.");
 					FindRequestFromPeer findRequest = new FindRequestFromPeer(msg, pc.getOutgoingPacketsToPeerQueue());
 					findRequest.run();
 				}
@@ -57,4 +65,8 @@ public class PacketManager implements Runnable
 	{
 		new Thread(this).start();
 	}
+	public ResponsesToOurFinds getResponsesToOurFinds() {
+		return responsesToOurFinds;
+	}
+
 }

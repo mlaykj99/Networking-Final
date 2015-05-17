@@ -1,5 +1,6 @@
 package p2p_Final_Project;
 
+import java.io.File;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
@@ -20,6 +21,7 @@ public class PeerController
 	private ResourceManager resMan;
 	private PacketManager packetMan;
 	private GossipPartners partners;
+	
 	
 	public PeerController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue)
 	{
@@ -161,8 +163,12 @@ public class PeerController
 		
 		public void run()
 		{
-			int requestID = Integer.parseInt(this.getParameters());
+			int resourceID = Integer.parseInt(this.getParameters());
+			ID requestID = ID.idFactory();
+			UDPMessage udpMessage;
+			TimeToLive ttl;
 			
+			ttl = new TimeToLive(Utilities.randomInt());
 			
 		}
 	}
@@ -176,15 +182,12 @@ public class PeerController
 		}
 		public void run() {
 			Request request;
-			byte[] message;
 			UDPMessage udpMessage;
 			TimeToLive ttl;
 			
 			ttl = new TimeToLive(Utilities.randomInt());
 			request = new RequestToFindResources(ID.idFactory());
-			
-			System.out.println(ttl.get());
-			System.out.println(this.getParameters());
+			getReqMan().insertRequest(request);
 			udpMessage = new UDPMessage(request.getID(),ID.idFactory(),ttl,this.getParameters());
 			getPartners().send(udpMessage);
 		}

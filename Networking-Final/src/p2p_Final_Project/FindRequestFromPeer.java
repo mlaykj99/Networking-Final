@@ -43,6 +43,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		
 		for(int i = 0; i < resourcesThatMatch.length;i++)
 		{
+			System.out.println("Found a resource.");
 			resourceID = resourcesThatMatch[i].getResourceID().getBytes();
 			timeToLive = (new TimeToLive(Utilities.randomInt()).toByteArray());
 			randomID = ID.idFactory().getBytes();
@@ -50,10 +51,11 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			mimeType = resourcesThatMatch[i].getMimeType().getBytes();
 			resourceLength = Utilities.longToBytes(resourcesThatMatch[i].getSizeInBytes());
 			description = resourcesThatMatch[i].getDescription().getBytes();
-			
+			System.out.println("Created the response.");
 			response = Utilities.arrayCopy(Utilities.arrayCopy(resourceID, originatingID, timeToLive, randomID),delimeter,mimeType,resourceLength,description);
 			packet = new DatagramPacket(response,response.length);
 			outgoing.enQueue(packet);
+			System.out.println("Response put in queue.");
 		}
 	}
 }

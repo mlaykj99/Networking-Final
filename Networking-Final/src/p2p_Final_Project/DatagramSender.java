@@ -18,8 +18,8 @@ public class DatagramSender extends DatagramSenderReceiver
 			try
 			{
 				DatagramPacket dgp = (DatagramPacket) queue.deQueue();
-				System.out.println("---" + dgp.getAddress() + " | " + dgp.getData());
 				datagramSocket.send(dgp);
+				System.out.println("Sent out a packet.");
 			} 
 			catch (Exception e)
 			{

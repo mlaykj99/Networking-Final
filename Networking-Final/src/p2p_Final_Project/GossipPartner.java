@@ -53,5 +53,6 @@ public class GossipPartner {
 		dgp.setPort(this.gossipPartnerAddress.getPort());
 		System.out.println(dgp.getAddress());
 		this.queue.enQueue(dgp);
+		System.out.println("Inserting DatagramPacket into queue.");
 	}
 }
