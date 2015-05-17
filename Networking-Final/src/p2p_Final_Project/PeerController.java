@@ -43,6 +43,9 @@ public class PeerController
 		{
 			e.printStackTrace();
 		}
+		
+		ResourceManager.loadResourcesFrom(new File("res/files.txt"));
+		
 		partners = GossipPartners.newInstance();
 		
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 12345) , outgoingPacketsToPeerQueue));
