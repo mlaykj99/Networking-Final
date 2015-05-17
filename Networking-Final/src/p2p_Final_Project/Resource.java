@@ -107,13 +107,15 @@ public class Resource {
 	public boolean matches(String searchString)
 	{
 		searchString = searchString.toLowerCase();
-		System.out.println("Name of file: "+ file.getName());
-		System.out.println("File Description: "+ description);
+		searchString = searchString.trim();
+		String name = file.getName().toLowerCase();
+		String des = description.toLowerCase();
+		
 		System.out.println("Comparing to "+ searchString);
 		
-		System.out.println(file.getName().toLowerCase().contains(searchString));
-		System.out.println(description.toLowerCase().contains(searchString));
-		return  file.getName().toLowerCase().contains(searchString) || description.toLowerCase().contains(searchString);
+		System.out.println(name);
+		System.out.println(name.indexOf(searchString));
+		return  name.indexOf(searchString) > -1 || des.indexOf(searchString) > -1;
 	}
 
 }
