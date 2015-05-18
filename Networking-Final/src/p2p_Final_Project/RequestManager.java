@@ -33,6 +33,7 @@ public class RequestManager {
 		}
 		System.out.println("Successful Insertion.");
 		requestDirectory.put(request.getID(),request);
+		System.out.println(request.getID());
 	}
 	
 	public void clearRequestDirectory()
