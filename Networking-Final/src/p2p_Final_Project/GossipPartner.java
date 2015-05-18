@@ -47,12 +47,15 @@ public class GossipPartner {
 			throw new IllegalArgumentException("Error: message is null in GossipPartner.");
 		}
 		DatagramPacket dgp;
-		
-		dgp = message.getDatagramPacket();
-		dgp.setAddress(this.gossipPartnerAddress.getAddress());
-		dgp.setPort(this.gossipPartnerAddress.getPort());
-		System.out.println(dgp.getAddress());
-		this.queue.enQueue(dgp);
-		System.out.println("Inserting DatagramPacket into queue.");
+		message.decrementTimeToLive();
+		if(message.getTimeToLive().get() > 0)
+		{
+			dgp = message.getDatagramPacket();
+			dgp.setAddress(this.gossipPartnerAddress.getAddress());
+			dgp.setPort(this.gossipPartnerAddress.getPort());
+			System.out.println(dgp.getAddress());
+			this.queue.enQueue(dgp);
+			System.out.println("Inserting DatagramPacket into queue.");
+		}
 	}
 }

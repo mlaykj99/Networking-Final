@@ -57,11 +57,14 @@ public class PacketManager implements Runnable
 					findRequest.run();
 				}
 				
-				msg.decrementTimeToLive();
+				//msg.decrementTimeToLive();
+				GossipPartners.getInstance().send(msg);
+				/*
 				if(msg.getTimeToLive().get() > 0)
 				{
 					GossipPartners.getInstance().send(msg);
 				}
+				*/
 			}
 		}
 	}
