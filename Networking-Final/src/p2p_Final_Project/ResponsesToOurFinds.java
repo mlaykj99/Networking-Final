@@ -48,7 +48,7 @@ public class ResponsesToOurFinds {
 			stuff = hold.split(delimeter);
 			
 			//frame.update
-			display.getTextArea2().setText(display.getTextArea2().getText() + "\n Type: " + stuff[0] + "\tLength: " + stuff[1] + "\tDescription: " + stuff[2]);			
+			display.getTextArea2().setText(display.getTextArea2().getText() + "\f Type: " + stuff[0] + " | Length: " + stuff[1] + " | Description: " + stuff[2]);			
 		}
 	}
 	

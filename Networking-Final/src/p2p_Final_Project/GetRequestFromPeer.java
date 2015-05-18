@@ -51,7 +51,7 @@ public class GetRequestFromPeer extends RequestFromPeer implements Runnable {
 		
 		partNumber = new byte[message.length-ID.getIDLength()];
 		
-		System.arraycopy(partNumber,0,message,ID.getIDLength(),message.length);
+		System.arraycopy(partNumber,0,message,ID.getIDLength(),message.length-ID.getIDLength());
 		
 		return partNumber;
 	}

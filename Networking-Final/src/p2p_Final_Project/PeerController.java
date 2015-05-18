@@ -59,8 +59,8 @@ public class PeerController
 		
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 12345) , outgoingPacketsToPeerQueue));
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.104" , 12345) , outgoingPacketsToPeerQueue));
-		partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.209" , 12345) , outgoingPacketsToPeerQueue));
-		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.61.151" , 12345) , outgoingPacketsToPeerQueue));
+		//partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.209" , 12345) , outgoingPacketsToPeerQueue));
+		partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.61.151" , 12345) , outgoingPacketsToPeerQueue));
 		
 	}
 	public void start()
@@ -204,8 +204,6 @@ public class PeerController
 			getReqMan().insertRequest(request);
 			getIgnoreList().add(request.getID());
 			udpMessage = new UDPMessage(request.getID(),ID.idFactory(),ttl,this.getParameters());
-			frame.getTextArea2().setText(frame.getTextArea2().getText()+"Request ID: ");
-			frame.getTextArea2().setText(frame.getTextArea2().getText()+request.getID());
 			//System.out.println("Sending a Find Request.");
 			getPartners().send(udpMessage);
 		}

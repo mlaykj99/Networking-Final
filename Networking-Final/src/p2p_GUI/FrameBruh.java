@@ -135,7 +135,6 @@ public class FrameBruh extends JFrame
 			}
 			
 			//send to ui controller
-			updateTextArea(txt+"hi");
 			cmd = uic.getCommandProcessor().getCommand(txt);
 			
 			if(cmd != null)

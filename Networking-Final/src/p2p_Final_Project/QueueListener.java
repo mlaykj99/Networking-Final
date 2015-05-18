@@ -27,8 +27,6 @@ public class QueueListener implements Runnable
 			{
 				call = (CommandCall)queue.deQueue();
 				command = commandProcessor.getCommand(call.getCommand());
-				System.out.println(call.getCommand());
-				System.out.println(command);
 				command.setParameters(call.getParameters());
 				command.setFile(call.getFile());
 				command.run();

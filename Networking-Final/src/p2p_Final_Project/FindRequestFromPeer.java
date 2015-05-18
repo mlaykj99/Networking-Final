@@ -44,7 +44,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		//System.out.println("# of matching resources: "+resourcesThatMatch.length);
 		for(int i = 0; i < resourcesThatMatch.length;i++)
 		{
-			System.out.println("Found a resource.");
+			//System.out.println("Found a resource.");
 			//System.out.println(resourcesThatMatch[i].getResourceID());
 			resourceID = resourcesThatMatch[i].getResourceID();
 			timeToLive = (new TimeToLive(Utilities.randomInt()));
@@ -55,10 +55,6 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			description = resourcesThatMatch[i].getDescription().getBytes();
 			//System.out.println("Created the response.");
 			response = Utilities.arrayCopy(Utilities.arrayCopy( randomID,delimeter),mimeType,resourceLength,description);
-			for(int j = 0; i < response.length;i++)
-			{
-				System.out.println(response[j]);
-			}
 			/*
 			try {
 				Thread.sleep(100000000);
