@@ -31,9 +31,9 @@ public class RequestManager {
 		{
 			throw new IllegalArgumentException("Error: request in RequestManager insertRequest cannot be null.");
 		}
-		System.out.println("Successful Insertion.");
+		//System.out.println("Successful Insertion.");
 		requestDirectory.put(request.getID(),request);
-		System.out.println(request.getID());
+		//System.out.println(request.getID());
 	}
 	
 	public void clearRequestDirectory()

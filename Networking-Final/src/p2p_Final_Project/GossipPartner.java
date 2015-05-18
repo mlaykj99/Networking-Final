@@ -47,9 +47,9 @@ public class GossipPartner {
 			throw new IllegalArgumentException("Error: message is null in GossipPartner.");
 		}
 		DatagramPacket dgp;
-		System.out.println(message.getTimeToLive());
+		//System.out.println(message.getTimeToLive());
 		message.decrementTimeToLive();
-		System.out.println(message.getTimeToLive());
+		//System.out.println(message.getTimeToLive());
 		//System.out.println("TimeToLive: "+message.getTimeToLive().get());
 		if(message.getTimeToLive().get() > 0)
 		{
