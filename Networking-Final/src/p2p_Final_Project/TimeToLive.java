@@ -16,9 +16,11 @@ public class TimeToLive
 		if( byteArray == null ) { throw new IllegalArgumentException("TimeToLive.constructor: byteArray is null!"); }
 		if( byteArray.length != 4 ) { throw new IllegalArgumentException("TimeToLive.constructor: byteArray is not size 4!"); }
 		
+		timeToLive = 0;
+		
 		//timeToLive = byteArray[0] & 0xFF | (byteArray[1] & 0xFF) << 8 | (byteArray[2] & 0xFF) << 16 | (byteArray[3] & 0xFF) << 24;	
 		for (int i = 0; i < byteArray.length; i++) {
-		    timeToLive = (timeToLive << 8) | byteArray[i];
+		    timeToLive = (timeToLive << (8*(3-i))) | byteArray[i];
 		}
 	}
 	
