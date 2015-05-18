@@ -27,6 +27,8 @@ public class Utilities {
 		byte[] combined;
 		
 		combined = new byte[one.length+two.length];
+		System.out.println("A length: "+one.length);
+		System.out.println("Another length "+two.length);
 		
 		System.arraycopy(combined, 0, one, 0, one.length);
 		System.arraycopy(combined, one.length, two, 0, two.length);
