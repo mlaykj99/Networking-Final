@@ -11,9 +11,18 @@ public class Utilities {
 	}
 	public static long bytesToLong(byte[] bytes)
 	{
-		ByteBuffer bb = ByteBuffer.wrap(bytes);
-		long l = bb.getLong();
-		System.out.println(l);
+		ByteBuffer bb;
+		byte[] bytesHold;
+		long l;
+		
+		bytesHold = new byte[] {0,0,0,0,0,0,0,0};
+		
+		for(int i = bytes.length-1;i > 0;i--)
+		{
+			bytesHold[i] = bytes[i];
+		}
+		bb = ByteBuffer.wrap(bytesHold);
+		l = bb.getLong();
 		return l;
 	}
 	public static byte[] arrayCopy(byte[] one, byte[] two, byte[] three, byte[] four,byte[]five)

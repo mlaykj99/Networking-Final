@@ -16,7 +16,7 @@ public class ResponsesToOurFinds {
 		this.responses = new ArrayList<ID>();
 		this.display = frame;
 		
-		display.getTextArea2().setText(" Finds.");
+		display.getTextArea2().setText(" Finds.\n");
 	}
 	//public boolean contains(ID )
 	public void updateResponses(UDPMessage msg)
@@ -48,7 +48,7 @@ public class ResponsesToOurFinds {
 			stuff = hold.split(delimeter);
 			
 			//frame.update
-			display.getTextArea2().setText(display.getTextArea2().getText() + "\f Type: " + stuff[0] + " | Length: " + Utilities.bytesToLong(stuff[1].getBytes()) + " | Description: " + stuff[2]);			
+			display.getTextArea2().setText(display.getTextArea2().getText() + "\f Type: " + stuff[0] + " | Length: " + Utilities.bytesToLong(stuff[1].getBytes()) + " | Description: " + stuff[2] + "\n");			
 		}
 	}
 	
