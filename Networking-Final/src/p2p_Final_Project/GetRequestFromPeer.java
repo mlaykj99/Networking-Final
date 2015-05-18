@@ -15,30 +15,34 @@ public class GetRequestFromPeer extends RequestFromPeer implements Runnable {
 		// TODO create packet with requested part info
 		//place in outgoing peer queue
 		ResourceManager rm = ResourceManager.getInstance();
-		DatagramPacket packet;
+		UDPMessage packet;
 		Resource resource;
-		int partNumberAsInt;
+		int partNumberAsInt = 0;
 		int resourceIDAsInt;
-		byte[] requestID;
-		byte[] resourceID;
-		byte[] timeToLive;
+		ID requestID;
+		ID resourceID;
+		TimeToLive timeToLive;
 		byte[] randomID;
 		byte[] partNumber;
 		byte[] bytesFromResource;
 		byte[] message;
 		
-		requestID = this.getUDPMessage().getId1().getBytes();
-		resourceID = this.getUDPMessage().getId2().getBytes();
-		resource = rm.getResourceByID(new ID(resourceID));
-		timeToLive = (new TimeToLive(Utilities.randomInt()).toByteArray());
+		requestID = this.getUDPMessage().getId1();
+		resourceID = this.getUDPMessage().getId2();
+		resource = rm.getResourceByID(resourceID);
+		timeToLive = new TimeToLive(Utilities.randomInt());
 		randomID = ID.idFactory().getBytes();
 		partNumber = getPartNumber();
-		//partNumberAsInt =  Utilities.bytesToInt(partNumber);
-		//bytesFromResource = resource.getBytes(partNumberAsInt);	
+		for(int i = 0; i < partNumber.length;i++)
+		{
+			partNumberAsInt = (partNumberAsInt << (8*(3-i))) | partNumber[i];
+		}
+		bytesFromResource = resource.getBytes(partNumberAsInt);
+
+		message = Utilities.arrayCopy(Utilities.arrayCopy(randomID,partNumber),bytesFromResource);
+		packet = new UDPMessage(resourceID,requestID,timeToLive,message);
 		
-		//message = Utilities.arrayCopy(Utilities.arrayCopy(resourceID,requestID,timeToLive,randomID,partNumber),bytesFromResource);
-		
-		//packet = new DatagramPacket(message,message.length);
+		GossipPartners.getInstance().send(packet);
 
 	}
 	

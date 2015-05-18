@@ -180,7 +180,6 @@ public class PeerController
 			TimeToLive ttl;
 			
 			ttl = new TimeToLive(Utilities.randomInt());
-			
 		}
 	}
 	
