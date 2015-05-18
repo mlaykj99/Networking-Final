@@ -13,7 +13,7 @@ public class Utilities {
 	{
 		ByteBuffer bb = ByteBuffer.wrap(bytes);
 		long l = bb.getLong();
-
+		System.out.println(l);
 		return l;
 	}
 	public static byte[] arrayCopy(byte[] one, byte[] two, byte[] three, byte[] four,byte[]five)
