@@ -27,7 +27,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		ID resourceID;
 		TimeToLive timeToLive;
 		ID randomID;
-		byte[] resourceLength;
+		long resourceLength;
 		String mimeType;
 		String description;
 		String delimeter;
@@ -50,14 +50,9 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			randomID = ID.idFactory();
 			delimeter = this.delimeter;
 			mimeType = resourcesThatMatch[i].getMimeType();
-			resourceLength = Utilities.longToBytes(resourcesThatMatch[i].getSizeInBytes());
+			resourceLength = resourcesThatMatch[i].getSizeInBytes();
 
 			description = resourcesThatMatch[i].getDescription();
-			for(int j = 0; j< 8;j++)
-			{
-				System.out.println(resourceLength[j]);
-			}
-			System.out.println("End");
 
 			//System.out.println("Created the response.");
 			response = (randomID + delimeter + mimeType + delimeter + resourceLength + delimeter + description).getBytes();

@@ -201,13 +201,13 @@ public class PeerController
 			
 			
 			//ttl = new TimeToLive(Utilities.randomInt());
-			ttl = new TimeToLive(Utilities.randomInt());
+			ttl = new TimeToLive();
 			request = new RequestToFindResources(ID.idFactory());
 			//System.out.println("Inserting Request");
 			getReqMan().insertRequest(request);
 			getIgnoreList().add(request.getID());
 			udpMessage = new UDPMessage(request.getID(),ID.idFactory(),ttl,this.getParameters());
-			//System.out.println("Sending a Find Request.");
+	System.out.println("Sending a Find Request. "+new String(udpMessage.getMessage()));
 			getPartners().send(udpMessage);
 		}
 	}

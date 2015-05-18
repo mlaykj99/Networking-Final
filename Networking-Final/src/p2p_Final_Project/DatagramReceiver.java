@@ -20,6 +20,7 @@ public class DatagramReceiver extends DatagramSenderReceiver
 				
 				datagramSocket.receive(packet);
 				queue.enQueue(packet);
+				System.out.println("Received packet from: "+packet.getAddress());
 
 		} 
 		catch (Exception e)

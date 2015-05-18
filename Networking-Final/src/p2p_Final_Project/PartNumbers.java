@@ -6,7 +6,7 @@ public class PartNumbers {
 	
 	public PartNumbers(int numberOfParts)
 	{
-		if(numberOfParts < 0)
+		if(numberOfParts < 1)
 		{
 			throw new IllegalArgumentException("Error: number of parts in a resource cannot be 0 or less. ");
 		}

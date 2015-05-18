@@ -47,9 +47,9 @@ public class ResponsesToOurFinds {
 			hold = hold.substring(1);
 			System.out.println(hold);
 			stuff = hold.split(delimeter);
-			this.responses.put(msg.getId1(),Utilities.bytesToLong(stuff[1].getBytes()));
+			this.responses.put(msg.getId1(),Long.parseLong(stuff[1]));
 			//frame.update
-			display.getTextArea2().setText(display.getTextArea2().getText() + "\f Type: " + stuff[0] + " | Length: " + Utilities.bytesToLong(stuff[1].getBytes()) + " | Description: " + stuff[2] + "\n");			
+			display.getTextArea2().setText(display.getTextArea2().getText() + "\f Type: " + stuff[0] + " | Length: " + Long.parseLong(stuff[1]) + " | Description: " + stuff[2] + "\n");			
 		}
 	}
 	public Long numberOfParts(ID id)

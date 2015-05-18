@@ -40,6 +40,7 @@ public class PacketManager implements Runnable
 				//System.out.println("Orginiating id: "+ msg.getId2());
 				//System.out.println("First id: "+msg.getId1());
 				//System.out.println(!ignoreList.contains(msg.getId1()));
+				System.out.println(pc.getResMan().getResourceByID(msg.getId2()) != null);
 				if(!ignoreList.contains(msg.getId1()))
 				{
 					System.out.println("Here");
