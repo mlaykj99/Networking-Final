@@ -36,7 +36,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		
 		outgoing = this.getOutgoingPacketQueue();
 		request = this.getUDPMessage();
-		originatingID = request.getId2();
+		originatingID = request.getId1();
 		//System.out.println(originatingID + " the originating ID");
 		rm = ResourceManager.newInstance();
 		//System.out.println("Searching for: "+new String (getUDPMessage().getMessage(),0,getUDPMessage().getMessage().length));
