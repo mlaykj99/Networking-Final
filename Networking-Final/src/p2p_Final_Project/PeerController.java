@@ -200,6 +200,7 @@ public class PeerController
 			//ttl = new TimeToLive(Utilities.randomInt());
 			ttl = new TimeToLive(Utilities.randomInt());
 			request = new RequestToFindResources(ID.idFactory());
+			System.out.println("Inserting Request");
 			getReqMan().insertRequest(request);
 			getIgnoreList().add(request.getID());
 			udpMessage = new UDPMessage(request.getID(),ID.idFactory(),ttl,this.getParameters());

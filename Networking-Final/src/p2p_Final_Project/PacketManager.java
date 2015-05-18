@@ -33,9 +33,9 @@ public class PacketManager implements Runnable
 				UDPMessage msg = new UDPMessage(d);
 				boolean b = pc.getReqMan().getRequest(msg.getId2()) != null;
 				
-				System.out.println("Checking if a prev request "+b);
-				System.out.println("Orginiating id: "+ msg.getId2());
-				System.out.println("First id: "+msg.getId1());
+				//System.out.println("Checking if a prev request "+b);
+				//System.out.println("Orginiating id: "+ msg.getId2());
+				//System.out.println("First id: "+msg.getId1());
 				if(b)
 				{
 					System.out.println("UPDATEING THE RESPONSES");
@@ -52,8 +52,9 @@ public class PacketManager implements Runnable
 				}
 				else
 				{
-					System.out.println("Attempting to find resource.");
+					//System.out.println("Attempting to find resource.");
 					FindRequestFromPeer findRequest = new FindRequestFromPeer(msg, pc.getOutgoingPacketsToPeerQueue());
+					
 					findRequest.run();
 				}
 				

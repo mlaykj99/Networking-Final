@@ -41,7 +41,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		rm = ResourceManager.newInstance();
 		//System.out.println("Searching for: "+new String (getUDPMessage().getMessage(),0,getUDPMessage().getMessage().length));
 		resourcesThatMatch = rm.getResourcesThatMatch(new String (getUDPMessage().getMessage(),0,getUDPMessage().getMessage().length));
-		System.out.println("# of matching resources: "+resourcesThatMatch.length);
+		//System.out.println("# of matching resources: "+resourcesThatMatch.length);
 		for(int i = 0; i < resourcesThatMatch.length;i++)
 		{
 			//System.out.println("Found a resource.");
@@ -56,6 +56,8 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			//System.out.println("Created the response.");
 			response = Utilities.arrayCopy(Utilities.arrayCopy( randomID,delimeter),mimeType,resourceLength,description);
 			request = new UDPMessage(resourceID, originatingID, timeToLive,response);
+			//System.out.println(originatingID);
+			//System.out.println(request.getId2());
 			GossipPartners.newInstance().send(request);
 			//System.out.println("Response put in queue.");
 		}

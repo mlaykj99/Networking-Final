@@ -81,9 +81,9 @@ public class UDPMessage {
 		System.arraycopy(data,0,id1,0,id1.length);
 		System.arraycopy(data, id1.length, id2, 0, id2.length);
 		System.arraycopy(data,id1.length+id2.length,ttl,0,ttl.length);
-		System.out.println(id1.length);
-		System.out.println(id2.length);
-		System.out.println(ttl.length);
+		//System.out.println(id1.length);
+		//System.out.println(id2.length);
+		//System.out.println(ttl.length);
 		System.arraycopy(data,id1.length+id2.length+ttl.length , message, 0, message.length);
 		
 		byte hold = ttl[0];
@@ -96,12 +96,12 @@ public class UDPMessage {
 		this.id1 = new ID(id1);
 		this.id2 = new ID(id2);
 		this.timeToLive = new TimeToLive(ttl);
-		System.out.println("UDPMessage Constructor: Why do you suck? "+this.timeToLive.get());
-		System.out.println(timeToLive);
-		System.out.println(data[32]);
-		System.out.println(data[33]);
-		System.out.println(data[34]);
-		System.out.println(data[35]);
+		//System.out.println("UDPMessage Constructor: Why do you suck? "+this.timeToLive.get());
+		//System.out.println(timeToLive);
+		//System.out.println(data[32]);
+		//System.out.println(data[33]);
+		//System.out.println(data[34]);
+		//System.out.println(data[35]);
 		this.message = message;
 	}
 	public DatagramPacket getDatagramPacket()
@@ -159,7 +159,7 @@ public class UDPMessage {
 	}
 	public void decrementTimeToLive()
 	{
-		System.out.println("Decrementing Time To Liveaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		//System.out.println("Decrementing Time To Liveaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 		this.timeToLive.set(this.timeToLive.get()-1);
 	}
 	public ID getId1() {
