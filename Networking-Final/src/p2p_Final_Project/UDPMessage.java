@@ -86,6 +86,13 @@ public class UDPMessage {
 		System.out.println(ttl.length);
 		System.arraycopy(data,id1.length+id2.length+ttl.length , message, 0, message.length);
 		
+		byte hold = ttl[0];
+		byte hold1 = ttl[1];
+		ttl[0] = ttl[3];
+		ttl[1] = ttl[2];
+		ttl[2] = hold1;
+		ttl[3] = hold;
+		
 		this.id1 = new ID(id1);
 		this.id2 = new ID(id2);
 		this.timeToLive = new TimeToLive(ttl);
