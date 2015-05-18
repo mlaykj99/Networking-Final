@@ -41,7 +41,7 @@ public class Utilities {
 		
 		return random;
 	}
-	public static int bytesToInt(byte[] bytes)
+	/*public static int bytesToInt(byte[] bytes)
 	{
 		int result = 0;
 	    for (int i=0; i<4; i++) {
@@ -49,4 +49,5 @@ public class Utilities {
 	    }
 	    return result;
 	}
+	*/
 }

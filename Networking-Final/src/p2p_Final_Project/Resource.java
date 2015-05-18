@@ -111,10 +111,10 @@ public class Resource {
 		String name = file.getName().toLowerCase();
 		String des = description.toLowerCase();
 		
-		System.out.println("Comparing to "+ searchString);
+		//System.out.println("Comparing to "+ searchString);
 		
-		System.out.println(name);
-		System.out.println(name.indexOf(searchString));
+		//System.out.println(name);
+		//System.out.println(name.indexOf(searchString));
 		return  name.indexOf(searchString) > -1 || des.indexOf(searchString) > -1;
 	}
 

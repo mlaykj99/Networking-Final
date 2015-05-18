@@ -19,7 +19,7 @@ public class DatagramSender extends DatagramSenderReceiver
 			{
 				DatagramPacket dgp = (DatagramPacket) queue.deQueue();
 				datagramSocket.send(dgp);
-				System.out.println("Sent out a packet.");
+				//System.out.println("Sent out a packet.");
 			} 
 			catch (Exception e)
 			{

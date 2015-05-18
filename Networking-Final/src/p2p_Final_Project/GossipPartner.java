@@ -48,7 +48,7 @@ public class GossipPartner {
 		}
 		DatagramPacket dgp;
 		message.decrementTimeToLive();
-		System.out.println("TimeToLive: "+message.getTimeToLive());
+		System.out.println("TimeToLive: "+message.getTimeToLive().get());
 		if(message.getTimeToLive().get() > 0)
 		{
 			dgp = message.getDatagramPacket();

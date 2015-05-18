@@ -33,12 +33,12 @@ public class GetRequestFromPeer extends RequestFromPeer implements Runnable {
 		timeToLive = (new TimeToLive(Utilities.randomInt()).toByteArray());
 		randomID = ID.idFactory().getBytes();
 		partNumber = getPartNumber();
-		partNumberAsInt =  Utilities.bytesToInt(partNumber);
-		bytesFromResource = resource.getBytes(partNumberAsInt);	
+		//partNumberAsInt =  Utilities.bytesToInt(partNumber);
+		//bytesFromResource = resource.getBytes(partNumberAsInt);	
 		
-		message = Utilities.arrayCopy(Utilities.arrayCopy(resourceID,requestID,timeToLive,randomID,partNumber),bytesFromResource);
+		//message = Utilities.arrayCopy(Utilities.arrayCopy(resourceID,requestID,timeToLive,randomID,partNumber),bytesFromResource);
 		
-		packet = new DatagramPacket(message,message.length);
+		//packet = new DatagramPacket(message,message.length);
 
 	}
 	
