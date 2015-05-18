@@ -57,8 +57,14 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			System.out.println("Delimeter: "+new String(this.delimeter,0,this.delimeter.length));
 			System.out.println("Random ID: \n"+randomID);
 			description = resourcesThatMatch[i].getDescription().getBytes();
+			System.out.println("Description");
+			System.out.println(description.length);
+			for(int j = 0;i<description.length;j++)
+			{
+				System.out.println(description[j]);
+			}
 			//System.out.println("Created the response.");
-			response = Utilities.arraycopy(Utilities.arrayCopy( randomID,delimeter,mimeType,delimeter),resourceLength,delimeter,description);
+			response = Utilities.arrayCopy(Utilities.arrayCopy( randomID,delimeter,mimeType,delimeter),resourceLength,delimeter,description);
 			System.out.println(new String(response,0,response.length));
 			
 			
