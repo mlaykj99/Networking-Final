@@ -48,14 +48,15 @@ public class GossipPartner {
 		}
 		DatagramPacket dgp;
 		message.decrementTimeToLive();
+		System.out.println("TimeToLive: "+message.getTimeToLive());
 		if(message.getTimeToLive().get() > 0)
 		{
 			dgp = message.getDatagramPacket();
 			dgp.setAddress(this.gossipPartnerAddress.getAddress());
 			dgp.setPort(this.gossipPartnerAddress.getPort());
-			System.out.println(dgp.getAddress());
+			//System.out.println(dgp.getAddress());
 			this.queue.enQueue(dgp);
-			System.out.println("Inserting DatagramPacket into queue.");
+			//System.out.println("Inserting DatagramPacket into queue.");
 		}
 	}
 }

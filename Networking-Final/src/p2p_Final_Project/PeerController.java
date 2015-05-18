@@ -198,7 +198,7 @@ public class PeerController
 			
 			
 			//ttl = new TimeToLive(Utilities.randomInt());
-			ttl = new TimeToLive(1);
+			ttl = new TimeToLive(Utilities.randomInt());
 			request = new RequestToFindResources(ID.idFactory());
 			getReqMan().insertRequest(request);
 			getIgnoreList().add(request.getID());
