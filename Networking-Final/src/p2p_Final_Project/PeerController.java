@@ -203,7 +203,8 @@ public class PeerController
 			getReqMan().insertRequest(request);
 			getIgnoreList().add(request.getID());
 			udpMessage = new UDPMessage(request.getID(),ID.idFactory(),ttl,this.getParameters());
-			//System.out.println("Request ID: "+request.getID());
+			frame.getTextArea2().setText(frame.getTextArea2().getText()+"Request ID: ");
+			frame.getTextArea2().setText(frame.getTextArea2().getText()+request.getID());
 			//System.out.println("Sending a Find Request.");
 			getPartners().send(udpMessage);
 		}
