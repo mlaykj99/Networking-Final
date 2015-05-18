@@ -39,40 +39,42 @@ public class PacketManager implements Runnable
 				//System.out.println("Checking if a prev request "+b);
 				//System.out.println("Orginiating id: "+ msg.getId2());
 				//System.out.println("First id: "+msg.getId1());
-				if(b)
-				{
-					System.out.println("UPDATEING THE RESPONSES");
-					this.responsesToOurFinds.updateResponses(msg);
-				}
-				else if(pc.getReqMan().getRequest(msg.getId2()) != null)
-				{
+				System.out.println(!ignoreList.contains(msg.getId1()));
+				//if(!ignoreList.contains(msg.getId1()))
+				//{
+					System.out.println("JHere");
+					if(b)
+					{
+						System.out.println("UPDATEING THE RESPONSES");
+						this.responsesToOurFinds.updateResponses(msg);
+					}
+					else if(pc.getResMan().getResourceByID(msg.getId2()) != null)
+					{
+						GetRequestFromPeer getRequest = new GetRequestFromPeer(msg, pc.getOutgoingPacketsToPeerQueue());
+						getRequest.run();
+					}
+					else //if(ignoreList.contains(msg.getId1()))
+					{
+						//System.out.println("Attempting to find resource.");
+						FindRequestFromPeer findRequest = new FindRequestFromPeer(msg, pc.getOutgoingPacketsToPeerQueue());
+						//System.out.println("ID1");
+						//System.out.println(msg.getId1());
+						//System.out.println("ID2");
+						//System.out.println(msg.getId2());
+						
+						findRequest.run();
+					}
 					
-				}
-				else if(pc.getResMan().getResourceByID(msg.getId2()) != null)
-				{
-					GetRequestFromPeer getRequest = new GetRequestFromPeer(msg, pc.getOutgoingPacketsToPeerQueue());
-					getRequest.run();
-				}
-				else if(ignoreList.contains(msg.getId1()))
-				{
-					//System.out.println("Attempting to find resource.");
-					FindRequestFromPeer findRequest = new FindRequestFromPeer(msg, pc.getOutgoingPacketsToPeerQueue());
-					//System.out.println("ID1");
-					//System.out.println(msg.getId1());
-					//System.out.println("ID2");
-					//System.out.println(msg.getId2());
+					//msg.decrementTimeToLive();
 					
-					findRequest.run();
-				}
-				
-				//msg.decrementTimeToLive();
-				GossipPartners.getInstance().send(msg);
-				/*
-				if(msg.getTimeToLive().get() > 0)
-				{
-					GossipPartners.getInstance().send(msg);
-				}
+					/*
+					if(msg.getTimeToLive().get() > 0)
+					{
+						GossipPartners.getInstance().send(msg);
+					}
 				*/
+				//}
+				GossipPartners.getInstance().send(msg);
 			}
 		}
 	}
