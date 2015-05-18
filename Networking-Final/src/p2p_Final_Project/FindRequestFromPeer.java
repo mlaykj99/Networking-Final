@@ -9,7 +9,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 	public FindRequestFromPeer(UDPMessage message, OutgoingPacketQueue outgoing) //Add reference to queue from peer controller when constructed as instance var
 	{
 		super(message,outgoing);
-		delimeter = ",".getBytes();
+		delimeter = ((Character)',').toString().getBytes();
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			System.out.println("Random ID: \n"+randomID);
 			description = resourcesThatMatch[i].getDescription().getBytes();
 			//System.out.println("Created the response.");
-			response = Utilities.arrayCopy( randomID,delimeter,mimeType,resourceLength,description);
+			response = Utilities.arraycopy(Utilities.arrayCopy( randomID,delimeter,mimeType,delimeter),resourceLength,delimeter,description);
 			System.out.println(new String(response,0,response.length));
 			
 			
