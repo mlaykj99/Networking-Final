@@ -1,6 +1,7 @@
 package p2p_Final_Project;
 
 import java.net.DatagramPacket;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
@@ -11,11 +12,13 @@ public class PacketManager implements Runnable
 	private PeerController pc;
 	private boolean done;
 	private ResponsesToOurFinds responsesToOurFinds;
-	public PacketManager(PeerController pc, FrameBruh frame)
+	private ArrayList<ID> ignoreList;
+	public PacketManager(PeerController pc, FrameBruh frame,ArrayList ignoreList)
 	{
 		this.pc = pc;
 		this.done = false;
 		this.responsesToOurFinds = new ResponsesToOurFinds(frame);
+		this.ignoreList = ignoreList;
 	}
 
 	@Override
@@ -28,8 +31,14 @@ public class PacketManager implements Runnable
 				System.out.println("GOT IT BITCHISE!");
 				DatagramPacket d = (DatagramPacket)pc.getIncomingPacketsFromPeerQueue().deQueue();
 				UDPMessage msg = new UDPMessage(d);
-				if(pc.getReqMan().getRequest(msg.getId2()) != null)
+				boolean b = pc.getReqMan().getRequest(msg.getId2()) != null;
+				
+				System.out.println("Checking if a prev request "+b);
+				System.out.println("Orginiating id: "+ msg.getId2());
+				System.out.println("First id: "+msg.getId1());
+				if(b)
 				{
+					System.out.println("UPDATEING THE RESPONSES");
 					this.responsesToOurFinds.updateResponses(msg);
 				}
 				else if(pc.getReqMan().getRequest(msg.getId2()) != null)

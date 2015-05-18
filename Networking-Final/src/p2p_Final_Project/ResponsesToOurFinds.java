@@ -18,7 +18,7 @@ public class ResponsesToOurFinds {
 		
 		display.getTextArea2().setText(" Finds.");
 	}
-	
+	//public boolean contains(ID )
 	public void updateResponses(UDPMessage msg)
 	{
 		String hold;

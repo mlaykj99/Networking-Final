@@ -3,6 +3,7 @@ package p2p_Final_Project;
 import java.io.File;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 
 import p2p_GUI.FrameBruh;
 
@@ -23,6 +24,7 @@ public class PeerController
 	private PacketManager packetMan;
 	private GossipPartners partners;
 	private FrameBruh frame;
+	private ArrayList<ID> ignoreList;
 	
 	
 	public PeerController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue, FrameBruh frame)
@@ -37,7 +39,9 @@ public class PeerController
 		this.reqMan = RequestManager.newInstance();
 		this.resMan = ResourceManager.newInstance();
 		this.frame = frame;
-		this.packetMan = new PacketManager(this, frame);
+		this.ignoreList = new ArrayList<ID>();
+		this.packetMan = new PacketManager(this, frame,this.ignoreList);
+
 		try
 		{
 			this.socket = new DatagramSocket(12345);
@@ -55,8 +59,8 @@ public class PeerController
 		
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 12345) , outgoingPacketsToPeerQueue));
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.104" , 12345) , outgoingPacketsToPeerQueue));
-		//partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.209" , 12345) , outgoingPacketsToPeerQueue));
-		partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.61.151" , 12345) , outgoingPacketsToPeerQueue));
+		partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.209" , 12345) , outgoingPacketsToPeerQueue));
+		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.61.151" , 12345) , outgoingPacketsToPeerQueue));
 		
 	}
 	public void start()
@@ -100,6 +104,10 @@ public class PeerController
 	public RequestManager getReqMan()
 	{
 		return reqMan;
+	}
+	public ArrayList<ID> getIgnoreList()
+	{
+		return this.ignoreList;
 	}
 	public ResourceManager getResMan()
 	{
@@ -188,10 +196,14 @@ public class PeerController
 			UDPMessage udpMessage;
 			TimeToLive ttl;
 			
-			ttl = new TimeToLive(Utilities.randomInt());
+			
+			//ttl = new TimeToLive(Utilities.randomInt());
+			ttl = new TimeToLive(1);
 			request = new RequestToFindResources(ID.idFactory());
 			getReqMan().insertRequest(request);
+			getIgnoreList().add(request.getID());
 			udpMessage = new UDPMessage(request.getID(),ID.idFactory(),ttl,this.getParameters());
+			System.out.println("Request ID: "+request.getID());
 			System.out.println("Sending a Find Request.");
 			getPartners().send(udpMessage);
 		}
