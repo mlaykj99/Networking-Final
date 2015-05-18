@@ -33,16 +33,16 @@ public class PacketManager implements Runnable
 				UDPMessage msg = new UDPMessage(d);
 				boolean b = pc.getReqMan().getRequest(msg.getId2()) != null;
 				
-				System.out.println(pc.getReqMan().getRequest(msg.getId2())+" ID1");
-				System.out.println(pc.getReqMan().getRequest(msg.getId1())+" ID2");
+				//System.out.println(pc.getReqMan().getRequest(msg.getId2())+" ID1");
+				//System.out.println(pc.getReqMan().getRequest(msg.getId1())+" ID2");
 
 				//System.out.println("Checking if a prev request "+b);
 				//System.out.println("Orginiating id: "+ msg.getId2());
 				//System.out.println("First id: "+msg.getId1());
-				System.out.println(!ignoreList.contains(msg.getId1()));
-				//if(!ignoreList.contains(msg.getId1()))
-				//{
-					System.out.println("JHere");
+				//System.out.println(!ignoreList.contains(msg.getId1()));
+				if(!ignoreList.contains(msg.getId1()))
+				{
+					//System.out.println("JHere");
 					if(b)
 					{
 						System.out.println("UPDATEING THE RESPONSES");
@@ -73,7 +73,7 @@ public class PacketManager implements Runnable
 						GossipPartners.getInstance().send(msg);
 					}
 				*/
-				//}
+				}
 				GossipPartners.getInstance().send(msg);
 			}
 		}
