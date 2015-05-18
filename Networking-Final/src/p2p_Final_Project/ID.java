@@ -193,14 +193,18 @@ public class ID
 		boolean result;
 		
 		//check if it is the same reference
-		result = super.equals(other);
-		
+		//result = super.equals(other);
+		result = true;
 		//Checks for same byte values
 		for(int i = 0; i < id.length; i++)
 		{
 			if(id[i] == ((ID)other).getBytes()[i])
 			{
 				result = result && true;
+			}
+			else 
+			{
+				result = false;
 			}
 		}
 		

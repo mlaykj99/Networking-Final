@@ -26,11 +26,25 @@ public class ResponsesToOurFinds {
 		String[] stuff;
 		if(!this.responses.contains(msg.getId1()))
 		{
+			System.out.println(msg.getId1());
+			System.out.println(msg.getId2());
+			System.out.println(msg.getTimeToLive());
+
+
 			this.responses.add(msg.getId1());
 			//use parsing and fun stuff
-			hold = new String(msg.getMessage(),ID.getIDLength(),msg.getMessage().length);
+			System.out.println(msg.getMessage().length);
+			for(int i = 0;i< msg.getMessage().length;i++)
+			{
+				System.out.println(msg.getMessage()[i]);
+			}
+			hold = new String(msg.getMessage(),ID.getIDLength(),msg.getMessage().length-ID.getIDLength());
+			System.out.println(new String(msg.getMessage(),ID.getIDLength(),msg.getMessage().length-ID.getIDLength()));
+			System.out.println();
 			delimeter = hold.charAt(0)+"";
+			System.out.println(delimeter);
 			hold = hold.substring(1);
+			System.out.println(hold);
 			stuff = hold.split(delimeter);
 			
 			//frame.update

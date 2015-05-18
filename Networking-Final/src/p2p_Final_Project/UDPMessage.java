@@ -137,7 +137,7 @@ public class UDPMessage {
 		System.arraycopy(this.timeToLive.toByteArray(),0,data,ID.getIDLength()*2,TimeToLive.getLengthInBytes());
 		System.arraycopy(messageAsBytes,0,data,ID.getIDLength()*2+TimeToLive.getLengthInBytes(),messageAsBytes.length);
 		
-		return new DatagramPacket(data,0);
+		return new DatagramPacket(data,data.length);
 	}
 	public DatagramPacket getDatagramPacket(byte[] message)
 	{
@@ -155,7 +155,7 @@ public class UDPMessage {
 		System.arraycopy(this.timeToLive.toByteArray(),0,data,ID.getIDLength()*2,TimeToLive.getLengthInBytes());
 		System.arraycopy(message,0,data,ID.getIDLength()*2+TimeToLive.getLengthInBytes(),message.length);
 		
-		return new DatagramPacket(data,0);
+		return new DatagramPacket(data,data.length);
 	}
 	public void decrementTimeToLive()
 	{
