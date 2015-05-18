@@ -33,28 +33,31 @@ public class ResourceManager {
 	{
 		RandomAccessFile files;
 		String filePath;
+		String[] stuff;
 
 		try 
 		{
 			files = new RandomAccessFile(file, "r");
-			filePath = files.readLine();
+			stuff = files.readLine().split(",");
+			filePath = stuff[0];
 			
 			while(filePath != null)
 			{
-					RandomAccessFile raf;
 					MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
 					String data;
 					Resource temp;
 					File resource = new File(filePath);
 					
-					raf = new RandomAccessFile(resource, "r");
-					data = resource.getPath() + " " + mimeTypesMap.getContentType(resource) + " " + raf.readLine();
+					data = resource.getPath() + " " + mimeTypesMap.getContentType(resource) + " " + stuff[1];
+					System.out.println("Loaded: " + data);
 					temp = new Resource(ID.idFactory(),data);
 					
 					resourceDirectory.put(temp.getResourceID(), temp);
 					listOfMap.add(temp);
 					
 					filePath = files.readLine();
+					if(filePath != null){stuff = filePath.split(",");
+					filePath = stuff[0];}
 			}
 		} 
 		catch (IOException e)

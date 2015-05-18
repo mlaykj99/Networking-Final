@@ -1,3 +1,3 @@
-res\Files\cute.jpg
-res\Files\Penguin_Mario.png
-res\Files\stuff.txt
+res\Files\cute.jpg,cute monkey
+res\Files\Penguin_Mario.png,mario penguin
+res\Files\stuff.txt,yup
