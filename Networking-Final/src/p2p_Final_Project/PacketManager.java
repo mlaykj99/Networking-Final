@@ -32,7 +32,7 @@ public class PacketManager implements Runnable
 				DatagramPacket d = (DatagramPacket)pc.getIncomingPacketsFromPeerQueue().deQueue();
 				UDPMessage msg = new UDPMessage(d);
 				boolean b = pc.getReqMan().getRequest(msg.getId2()) != null;
-				
+				System.out.println("Why arent you true? "+b);
 				//System.out.println(pc.getReqMan().getRequest(msg.getId2())+" ID1");
 				//System.out.println(pc.getReqMan().getRequest(msg.getId1())+" ID2");
 
