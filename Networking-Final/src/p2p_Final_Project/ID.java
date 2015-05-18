@@ -244,7 +244,7 @@ public class ID
 	
 	public String toString()
 	{		
-		String result;
+		/*String result;
 		
 		result = "";
 		for(int i = 0; i < id.length; i++)
@@ -252,7 +252,8 @@ public class ID
 			result = result + "Byte " + i + ": " + id[i] + "\n";
 		}
 		
-		return result;
+		return result;*/
+		return new String(this.id,0,this.id.length);
 	}
 	
 	private static byte[] getSecureRandom()

@@ -4,12 +4,12 @@ import java.net.DatagramPacket;
 
 public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 
-	private byte[] delimeter;
+	private String delimeter;
 	
 	public FindRequestFromPeer(UDPMessage message, OutgoingPacketQueue outgoing) //Add reference to queue from peer controller when constructed as instance var
 	{
 		super(message,outgoing);
-		delimeter = ((Character)',').toString().getBytes();
+		delimeter = ",";
 	}
 
 	@Override
@@ -26,11 +26,11 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		ID originatingID;
 		ID resourceID;
 		TimeToLive timeToLive;
-		byte[] randomID;
+		ID randomID;
 		byte[] resourceLength;
-		byte[] mimeType;
-		byte[] description;
-		byte[] delimeter;
+		String mimeType;
+		String description;
+		String delimeter;
 		Resource[] resourcesThatMatch;
 		byte[] response;
 		
@@ -47,19 +47,12 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			//System.out.println("Found a resource.");
 			//System.out.println(resourcesThatMatch[i].getResourceID());
 			resourceID = resourcesThatMatch[i].getResourceID();
-			timeToLive = (new TimeToLive(Utilities.randomInt()));
-			randomID = ID.idFactory().getBytes();
+			randomID = ID.idFactory();
 			delimeter = this.delimeter;
-			mimeType = resourcesThatMatch[i].getMimeType().getBytes();
+			mimeType = resourcesThatMatch[i].getMimeType();
 			resourceLength = Utilities.longToBytes(resourcesThatMatch[i].getSizeInBytes());
-			System.out.println("Description: "+resourcesThatMatch[i].getDescription());
-			System.out.println("MimeType: "+ resourcesThatMatch[i].getMimeType());
-			System.out.println("Delimeter: "+new String(this.delimeter,0,this.delimeter.length));
-			System.out.println("Random ID: \n"+randomID);
-			description = resourcesThatMatch[i].getDescription().getBytes();
-			System.out.println("Description");
-			System.out.println(description.length);
-			System.out.println("Resource length: "+resourceLength.length);
+
+			description = resourcesThatMatch[i].getDescription();
 			for(int j = 0; j< 8;j++)
 			{
 				System.out.println(resourceLength[j]);
@@ -67,7 +60,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			System.out.println("End");
 
 			//System.out.println("Created the response.");
-			response = Utilities.arrayCopy(Utilities.arrayCopy( randomID,delimeter,mimeType,delimeter),resourceLength,delimeter,description);
+			response = (randomID + delimeter + mimeType + delimeter + resourceLength + delimeter + description).getBytes();
 			//System.out.println(new String(response,0,response.length));
 			
 			
@@ -78,7 +71,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}*/
-			request = new UDPMessage(resourceID, originatingID, timeToLive,response);
+			request = new UDPMessage(resourceID, originatingID, new TimeToLive(),response);
 			//System.out.println(originatingID);
 			//System.out.println(request.getId2());
 			GossipPartners.newInstance().send(request);

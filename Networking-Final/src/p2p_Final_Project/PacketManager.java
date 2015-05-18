@@ -42,7 +42,7 @@ public class PacketManager implements Runnable
 				//System.out.println(!ignoreList.contains(msg.getId1()));
 				if(!ignoreList.contains(msg.getId1()))
 				{
-					//System.out.println("JHere");
+					System.out.println("Here");
 					if(b)
 					{
 						System.out.println("UPDATEING THE RESPONSES");

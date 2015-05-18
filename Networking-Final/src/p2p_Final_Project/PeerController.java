@@ -58,10 +58,9 @@ public class PeerController
 		partners = GossipPartners.newInstance();
 		
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 12345) , outgoingPacketsToPeerQueue));
-		//partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.104" , 12345) , outgoingPacketsToPeerQueue));
-		partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.209" , 12345) , outgoingPacketsToPeerQueue));
+		partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.104" , 12345) , outgoingPacketsToPeerQueue));
+		//partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.209" , 12345) , outgoingPacketsToPeerQueue));
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.61.151" , 12345) , outgoingPacketsToPeerQueue));
-		
 	}
 	public void start()
 	{
@@ -104,6 +103,10 @@ public class PeerController
 	public RequestManager getReqMan()
 	{
 		return reqMan;
+	}
+	public PacketManager getPacketManager()
+	{
+		return this.packetMan;
 	}
 	public ArrayList<ID> getIgnoreList()
 	{
@@ -173,13 +176,14 @@ public class PeerController
 		}
 		
 		public void run()
-		{
-			int resourceID = Integer.parseInt(this.getParameters());
-			ID requestID = ID.idFactory();
-			UDPMessage udpMessage;
-			TimeToLive ttl;
+		{	
+			ID resourceID = new ID(this.getParameters());
+			Long numberOfParts;
 			
-			ttl = new TimeToLive(Utilities.randomInt());
+			numberOfParts = getPacketManager().getResponsesToOurFinds().numberOfParts(resourceID);
+			
+			//new GetResourceRequest(resourceID,,numberOfParts)
+			
 		}
 	}
 	

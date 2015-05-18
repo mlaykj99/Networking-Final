@@ -86,14 +86,14 @@ public abstract class Command implements Runnable, Comparable<Command>, Cloneabl
 	
 	public String getCommandName()
 	{
-		return this.commandName;
+		return this.commandName.trim();
 	}
 	public String getDescription() {
-		return this.description;
+		return this.description.trim();
 	}
 
 	public String getParameters() {
-		return this.parameters;
+		return this.parameters.trim();
 	}
 	public File getFile() {
 		return this.file;

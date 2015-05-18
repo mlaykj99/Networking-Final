@@ -4,6 +4,10 @@ public class TimeToLive
 {
 	private int timeToLive;
 	
+	public TimeToLive()
+	{
+		this.timeToLive = ((int)(Math.random()*3))+3;
+	}
 	public TimeToLive(int timeToLive)
 	{
 		if( timeToLive < 1 ) { throw new IllegalArgumentException("TimeToLive.constructor: timeToLive is less then 1!"); }
@@ -35,9 +39,12 @@ public class TimeToLive
 	
 	public byte[] toByteArray()
 	{
+		int x = this.timeToLive;
 		byte[] bytes = new byte[4];
-		for (int i = 0; i < 4; i++) {
-		    bytes[i] = (byte)(timeToLive >>> (i * 8));
+		for (int i = 3; i>=0;i--)
+		{
+			bytes[i] = (byte) (x & 0xFF);
+			x = x >> 8;
 		}
 		
 		return bytes;
@@ -45,16 +52,6 @@ public class TimeToLive
 	
 	public String toString()
 	{
-		String result;
-		byte[] bytes;
-		
-		result = "";
-		bytes = toByteArray();
-		for(int i = 0; i < bytes.length; i++)
-		{
-			result = result + "Byte " + i + ": " + bytes[i] + "\n";
-		}
-		
-		return result;
+		return this.timeToLive+"";
 	}
 }
