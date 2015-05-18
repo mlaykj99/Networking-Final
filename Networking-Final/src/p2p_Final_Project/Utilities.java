@@ -9,6 +9,13 @@ public class Utilities {
 	    buffer.putLong(x);
 	    return buffer.array();
 	}
+	public static long bytesToLong(byte[] bytes)
+	{
+		ByteBuffer bb = ByteBuffer.wrap(bytes);
+		long l = bb.getLong();
+
+		return l;
+	}
 	public static byte[] arrayCopy(byte[] one, byte[] two, byte[] three, byte[] four,byte[]five)
 	{
 		return arrayCopy(arrayCopy(one,two,three,four),five);
