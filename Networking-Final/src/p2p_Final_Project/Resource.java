@@ -31,7 +31,7 @@ public class Resource {
 		this.length = this.file.length();
 		this.mimeType = temp[1];
 		this.description = temp[2];
-		partNumbers = new PartNumbers((int)Math.ceil((double)(this.length/456)));
+		partNumbers = new PartNumbers((int)Math.ceil((this.length/(double)456)));
 	}
 	public Resource(ID id, String data,char delimeter)
 	{
@@ -69,12 +69,18 @@ public class Resource {
 		{
 			throw new IllegalArgumentException("Error part number reqeusted is out of range. "+this.getClass());
 		}
-
 		long start;
 		long end;
-		
-		start = (partNumber-1)*456;
-		end = start+456;
+		if(partNumber == partNumbers.get())
+		{
+			start = (partNumber-1)*456;
+			end = this.length;
+		}
+		else
+		{
+			start = (partNumber-1)*456;
+			end = start+456;
+		}
 		
 		return getBytes(start,end);
 		

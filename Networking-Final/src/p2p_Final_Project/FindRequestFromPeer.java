@@ -9,7 +9,7 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 	public FindRequestFromPeer(UDPMessage message, OutgoingPacketQueue outgoing) //Add reference to queue from peer controller when constructed as instance var
 	{
 		super(message,outgoing);
-		delimeter = ",";
+		delimeter = "\t";
 	}
 
 	@Override
@@ -25,8 +25,9 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 		DatagramPacket packet;
 		ID originatingID;
 		ID resourceID;
+
 		TimeToLive timeToLive;
-		ID randomID;
+		byte[] randomID;
 		long resourceLength;
 		String mimeType;
 		String description;
@@ -47,7 +48,8 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			//System.out.println("Found a resource.");
 			//System.out.println(resourcesThatMatch[i].getResourceID());
 			resourceID = resourcesThatMatch[i].getResourceID();
-			randomID = ID.idFactory();
+			
+			randomID = ID.idFactory().getBytes();
 			delimeter = this.delimeter;
 			mimeType = resourcesThatMatch[i].getMimeType();
 			resourceLength = resourcesThatMatch[i].getSizeInBytes();
@@ -55,8 +57,9 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 			description = resourcesThatMatch[i].getDescription();
 
 			//System.out.println("Created the response.");
-			response = (randomID + delimeter + mimeType + delimeter + resourceLength + delimeter + description).getBytes();
+			response = (delimeter + mimeType + delimeter + resourceLength + delimeter + description).getBytes();
 			//System.out.println(new String(response,0,response.length));
+			response = Utilities.arrayCopy(randomID,response);
 			
 			
 			/*
@@ -67,6 +70,8 @@ public class FindRequestFromPeer extends RequestFromPeer implements Runnable {
 				e.printStackTrace();
 			}*/
 			request = new UDPMessage(resourceID, originatingID, new TimeToLive(),response);
+			
+			
 			//System.out.println(originatingID);
 			//System.out.println(request.getId2());
 			GossipPartners.newInstance().send(request);

@@ -14,10 +14,7 @@ public abstract class RequestFromPeer implements Runnable{
 			throw new IllegalArgumentException("Error: outgoing in " + this.getClass()+" is null.");
 		}
 		this.udpMessage = message;
-		for(int i = 0;i < message.getMessage().length;i++)
-		{
-			System.out.println("Message at position "+ i + " in request constructor" + "" +message.getMessage()[i]);
-		}
+
 		this.outgoing = outgoing;
 	}
 	public OutgoingPacketQueue getOutgoingPacketQueue() {
