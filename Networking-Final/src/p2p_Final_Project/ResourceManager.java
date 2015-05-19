@@ -88,6 +88,10 @@ public class ResourceManager {
 	{
 		return resourceDirectory.get(id);
 	}
+	public ID getAnID()
+	{
+		return resourceDirectory.values().iterator().next().getResourceID();
+	}
 }
 
 

@@ -42,13 +42,9 @@ public class Utilities {
 	{
 		byte[] combined;
 		
-		combined = new byte[one.length+two.length];
-		System.out.println("A length: "+one.length);
-		System.out.println("Another length "+two.length);
-		
+		combined = new byte[one.length+two.length];	
 		System.arraycopy(one, 0, combined, 0, one.length);
 		System.arraycopy(two, 0, combined, one.length, two.length);
-		System.out.println(combined[4]);
 		return combined;
 		
 	}

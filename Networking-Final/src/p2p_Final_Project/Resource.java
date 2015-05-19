@@ -64,15 +64,16 @@ public class Resource {
 	}
 	public byte[] getBytes(int partNumber)
 	{
-		if(partNumber > this.partNumbers.get())
+		System.out.println("PartNumber in getBytes() " + partNumber);
+		if(partNumber > this.partNumbers.get() || partNumber < 0)
 		{
 			throw new IllegalArgumentException("Error part number reqeusted is out of range. "+this.getClass());
 		}
-	
+
 		long start;
 		long end;
 		
-		start = partNumber*456;
+		start = (partNumber-1)*456;
 		end = start+456;
 		
 		return getBytes(start,end);
