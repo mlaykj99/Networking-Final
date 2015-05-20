@@ -1,29 +1,30 @@
 package p2p_GUI;
 
 import java.awt.EventQueue;
-import java.net.InetSocketAddress;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import p2p_Final_Project.Command;
-import p2p_Final_Project.GossipPartner;
-import p2p_Final_Project.GossipPartners;
 import p2p_Final_Project.PeerController;
 import p2p_Final_Project.SynchronizedLinkedListQueue;
 import p2p_Final_Project.UIController;
+import javax.swing.JScrollPane;
 
-public class FrameBruh extends JFrame
+public class FrameBruh extends JFrame implements ActionListener, KeyListener
 {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textField;
-	private JScrollPane panel;
+	private JPanel panel;
 	private JButton btnSend;
 	private JTextArea textArea;
 	private JTextArea textArea2;
@@ -69,25 +70,35 @@ public class FrameBruh extends JFrame
 		btnSend = new JButton("Send");
 		btnSend.setBounds(585, 530, 89, 23);
 		btnSend.setActionCommand("Send");
+		btnSend.addActionListener(this);
 		
-		textArea = new JTextArea("Enter a command. (Type 'help' for a list of commands)");
-		textArea.setBounds(10, 11, 664, 509);
+		textArea = new JTextArea(" Enter a command. (Type 'help' for a list of commands)");
+		textArea.setBounds(0, 0, 664, 509);
 		textArea.setEditable(false);
 		
 		textArea2 = new JTextArea();
-		textArea2.setBounds(684, 11, 500, 509);
+		textArea2.setBounds(0, 0, 500, 509);
 		textArea2.setEditable(false);
 		
-		panel = new Pane(this);
+		panel = new JPanel();
 		panel.setBounds(0, 0, 1184, 562);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
+		JScrollPane scrollPane = new JScrollPane(textArea);
+		scrollPane.setBounds(10, 11, 664, 509);
+		panel.add(scrollPane);
+		
+		JScrollPane scrollPane2 = new JScrollPane(textArea2);
+		scrollPane2.setBounds(684, 11, 500, 509);
+		panel.add(scrollPane2);
+		
 		panel.add(textField);
 		panel.add(btnSend);
-		panel.add(textArea);
-		panel.add(textArea2);
+		//panel.add(textArea);
+		//panel.add(textArea2);
 		
+		textField.addKeyListener(this);
 		textField.setFocusable(true);
 		textField.requestFocus();
 	}
@@ -163,4 +174,30 @@ public class FrameBruh extends JFrame
 	{
 		this.textArea.setText(this.textArea.getText() + "\n" + txt);
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		String cmd = e.getActionCommand();
+		
+		if(cmd.equalsIgnoreCase("Send"))
+		{
+			sendCommand();
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
+
+	@Override
+	public void keyPressed(KeyEvent e) 
+	{
+		if(e.getKeyCode() == KeyEvent.VK_ENTER)
+		{
+			sendCommand();
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {}
 }
