@@ -52,7 +52,7 @@ public class ResponsesToOurFinds {
 			display.getTextArea2().setText(display.getTextArea2().getText() + "\f Type: " + stuff[0] + " | Length: " + Long.parseLong(stuff[1]) + " | Description: " + stuff[2] + "\n");			
 		}
 	}
-	public Long numberOfParts(ID id)
+	public Long lengthOfResource(ID id)
 	{
 		return this.responses.get(id);
 	}

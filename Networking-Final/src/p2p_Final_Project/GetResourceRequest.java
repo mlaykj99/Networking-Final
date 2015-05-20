@@ -3,17 +3,25 @@ package p2p_Final_Project;
 public class GetResourceRequest extends Request implements Runnable {
 
 	//private ID resourceID;
+	private ID resourceID;
+	private Long length;
 	private ID requestID;
-	private Long numberOfParts;
-	public GetResourceRequest(ID resourceID,ID requestID,Long numberOfParts)
+	private PartNumbers numberOfParts;
+	private OutgoingPacketQueue queue;
+	public GetResourceRequest(ID resourceID,ID requestID,Long length,OutgoingPacketQueue queue)
 	{
-		super(resourceID);
+		super(requestID);
 		//this.resourceID = resourceID;
 		this.requestID = requestID;
+		this.resourceID = requestID;
+		this.length = length;
+		this.numberOfParts = new PartNumbers((int)Math.ceil((this.length/(double)456)));
+		this.queue = queue;
+		
 	}
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
+		// request parts
 
 	}
 	
@@ -24,7 +32,7 @@ public class GetResourceRequest extends Request implements Runnable {
 	}
 	@Override
 	public void updateRquest(UDPMessage udpMessage) {
-		// TODO Auto-generated method stub
+		// gets called with parts and fills the file up;
 		
 	}
 	

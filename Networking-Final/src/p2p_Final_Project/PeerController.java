@@ -25,6 +25,7 @@ public class PeerController
 	private GossipPartners partners;
 	private FrameBruh frame;
 	private ArrayList<ID> ignoreList;
+	private GetRequestManager grm;
 	
 	
 	public PeerController(SynchronizedLinkedListQueue uiQueue, SynchronizedLinkedListQueue peerQueue, FrameBruh frame)
@@ -41,7 +42,7 @@ public class PeerController
 		this.frame = frame;
 		this.ignoreList = new ArrayList<ID>();
 		this.packetMan = new PacketManager(this, frame,this.ignoreList);
-
+		this.grm = GetRequestManager.newInstance();
 		try
 		{
 			this.socket = new DatagramSocket(12345);
@@ -83,7 +84,10 @@ public class PeerController
 		this.queueListener.stop();
 		this.packetMan.stop();
 	}
-	
+	private GetRequestManager getGetRequestManager()
+	{
+		return this.grm;
+	}
 	private void insert(CommandCall cc)
 	{
 		uiQueue.enQueue(cc);
@@ -178,12 +182,12 @@ public class PeerController
 		public void run()
 		{	
 			ID resourceID = new ID(this.getParameters());
-			Long numberOfParts;
+			Long length;
+			ID requestID = ID.idFactory();
 			
-			numberOfParts = getPacketManager().getResponsesToOurFinds().numberOfParts(resourceID);
+			length = getPacketManager().getResponsesToOurFinds().lengthOfResource(resourceID);
 			
-			//new GetResourceRequest(resourceID,,numberOfParts)
-			
+			(new GetResourceRequest(resourceID,requestID,length,getOutgoingPacketsToPeerQueue())).startAsThread();
 		}
 	}
 	
@@ -207,7 +211,7 @@ public class PeerController
 			getReqMan().insertRequest(request);
 			getIgnoreList().add(request.getID());
 			udpMessage = new UDPMessage(request.getID(),ID.idFactory(),ttl,this.getParameters());
-	System.out.println("Sending a Find Request. "+new String(udpMessage.getMessage()));
+			System.out.println("Sending a Find Request. "+new String(udpMessage.getMessage()));
 			getPartners().send(udpMessage);
 		}
 	}

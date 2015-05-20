@@ -13,12 +13,14 @@ public class PacketManager implements Runnable
 	private boolean done;
 	private ResponsesToOurFinds responsesToOurFinds;
 	private ArrayList<ID> ignoreList;
+	private GetRequestManager grm;
 	public PacketManager(PeerController pc, FrameBruh frame,ArrayList ignoreList)
 	{
 		this.pc = pc;
 		this.done = false;
 		this.responsesToOurFinds = new ResponsesToOurFinds(frame);
 		this.ignoreList = ignoreList;
+		grm = GetRequestManager.getInstance();
 	}
 
 	@Override
@@ -40,14 +42,21 @@ public class PacketManager implements Runnable
 				//System.out.println("Orginiating id: "+ msg.getId2());
 				//System.out.println("First id: "+msg.getId1());
 				//System.out.println(!ignoreList.contains(msg.getId1()));
-				System.out.println(pc.getResMan().getResourceByID(msg.getId2()) != null);
+				//System.out.println(pc.getResMan().getResourceByID(msg.getId2()) != null);
 				if(!ignoreList.contains(msg.getId1()))
 				{
 					System.out.println("Here");
 					if(b)
 					{
-						System.out.println("UPDATEING THE RESPONSES");
-						this.responsesToOurFinds.updateResponses(msg);
+						if(grm.contains(msg.getId2()))
+						{
+							grm.get(msg.getId2()).updateRquest(msg);
+						}
+						else
+						{
+							System.out.println("UPDATEING THE RESPONSES");
+							this.responsesToOurFinds.updateResponses(msg);
+						}
 					}
 					else if(pc.getResMan().getResourceByID(msg.getId2()) != null)
 					{
