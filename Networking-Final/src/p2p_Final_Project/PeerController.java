@@ -193,7 +193,11 @@ public class PeerController
 			
 			length = getPacketManager().getResponsesToOurFinds().lengthOfResource(request);
 			
-			(new GetResourceRequest(resourceID,requestID,length)).startAsThread();
+			GetResourceRequest grr = new GetResourceRequest(resourceID,requestID,length);
+			
+			GetRequestManager.getInstance().add(grr);
+			getReqMan().insertRequest(grr);
+			grr.startAsThread();
 		}
 	}
 	

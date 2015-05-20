@@ -52,7 +52,7 @@ public class GetResourceRequest extends Request implements Runnable {
 		{
 			file = dialogue.getSelectedFile();
 			try {
-				this.raf = new RandomAccessFile(file,"w");
+				this.raf = new RandomAccessFile(file,"rws");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
@@ -78,15 +78,32 @@ public class GetResourceRequest extends Request implements Runnable {
 		{
 			synchronized(this.arrived)
 			{
+				System.out.println("Filling the file with stuff");
 				
 				partNumber = ByteBuffer.allocate(4).putInt(i).array();
+				System.out.println(partNumber[0]);
+				System.out.println(partNumber[1]);
+				System.out.println(partNumber[2]);
+				System.out.println(partNumber[3]);
+				
+				System.out.println(ByteBuffer.wrap(partNumber).getInt());
+
 				bytes = Utilities.arrayCopy(ID.idFactory().getBytes(),partNumber);
+				
+				System.out.println("This is what in the message for get: "+new String(bytes));
+				
 				message = new UDPMessage(this.requestID,this.resourceID,new TimeToLive(),bytes);
 				
 				GossipPartners.getInstance().send(message);
 				
 				while(!this.arrived.contains(i)){try{this.arrived.wait();}catch (InterruptedException ie){}}
 			}
+		}
+		
+		try {
+			this.raf.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -109,18 +126,50 @@ public class GetResourceRequest extends Request implements Runnable {
 		
 		partNumber = ByteBuffer.wrap(partNum).getInt();
 		
+		System.out.println("Stuff arrived for file");
 		
 		synchronized(this.arrived)
 		{
 			if(!this.arrived.contains(partNumber))
 			{
 				this.arrived.setFor(partNumber);
+						
+				if(partNumber == numberOfParts.get())
+				{
+					startingByte = (partNumber-1)*456;
+					endingByte = this.length;
+				}
+				else
+				{
+					startingByte = (partNumber-1)*456;
+					endingByte = startingByte+456;
+				}
 				
-				startingByte = (partNumber - 1) * 456;
-				endingByte = (this.length) - (this.length - startingByte);
+				
+				System.out.println("startingByte");
+				
+				for(int j = 0;j < udpMessage.getMessage().length;j++)
+				{
+					System.out.println("Byte in message before copy: "+ j+"   "+udpMessage.getMessage()[j]);
+				}
 				buffer = new byte[(int) (endingByte-startingByte)];
-				
+				System.out.println("Buffer length before copy: "+buffer.length);
 				System.arraycopy(udpMessage.getMessage(), 20, buffer, 0, buffer.length);
+
+				for(int j = 0;j < udpMessage.getMessage().length;j++)
+				{
+					System.out.println("Byte in message: "+ j+"   "+udpMessage.getMessage()[j]);
+				}
+				
+				
+				
+				System.out.println("Starting byte: "+startingByte);
+				System.out.println("Bufffer length: "+buffer.length);
+				for(int j = 0;j < buffer.length;j++)
+				{
+					System.out.println("Byte in buffer: "+ j+"   "+buffer[j]);
+				}
+				
 				try {
 					this.raf.seek(startingByte);
 					this.raf.write(buffer);

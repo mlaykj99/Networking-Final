@@ -54,12 +54,12 @@ public class ResponsesToOurFinds {
 	}
 	public Long lengthOfResource(int i)
 	{
-		byte[] bytes = this.responses.get(i).getMessage();
+		byte[] bytes = this.responses.get(i-1).getMessage();
 		String hold;
 		String delimiter;
 		String[] stuff;
 		
-		hold = new String(this.responses.get(i).getMessage(),ID.getIDLength(),this.responses.get(i).getMessage().length-ID.getIDLength());
+		hold = new String(this.responses.get(i-1).getMessage(),ID.getIDLength(),this.responses.get(i-1).getMessage().length-ID.getIDLength());
 		delimiter = hold.charAt(0)+"";
 		hold = hold.substring(1);
 		stuff = hold.split(delimiter);
@@ -68,6 +68,6 @@ public class ResponsesToOurFinds {
 	}
 	public ID resourceID(int i)
 	{
-		return this.responses.get(i).getId1();
+		return this.responses.get(i-1).getId1();
 	}
 }
