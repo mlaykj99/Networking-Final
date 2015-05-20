@@ -59,7 +59,10 @@ public class PeerController
 		partners = GossipPartners.newInstance();
 		
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 12345) , outgoingPacketsToPeerQueue));
-		partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.104" , 12345) , outgoingPacketsToPeerQueue));
+		//partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.104" , 12345) , outgoingPacketsToPeerQueue));
+		
+		partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.24.132" , 12345) , outgoingPacketsToPeerQueue));
+
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("140.209.121.209" , 12345) , outgoingPacketsToPeerQueue));
 		//partners.addPartner(new GossipPartner(new InetSocketAddress("10.20.61.151" , 12345) , outgoingPacketsToPeerQueue));
 	}
@@ -181,13 +184,16 @@ public class PeerController
 		
 		public void run()
 		{	
-			ID resourceID = new ID(this.getParameters());
+			System.out.println("Sending a get");
+			int request = Integer.parseInt(this.getParameters());
 			Long length;
 			ID requestID = ID.idFactory();
+			ID resourceID;
+			resourceID = getPacketManager().getResponsesToOurFinds().resourceID(request);
 			
-			length = getPacketManager().getResponsesToOurFinds().lengthOfResource(resourceID);
+			length = getPacketManager().getResponsesToOurFinds().lengthOfResource(request);
 			
-			(new GetResourceRequest(resourceID,requestID,length,getOutgoingPacketsToPeerQueue())).startAsThread();
+			(new GetResourceRequest(resourceID,requestID,length)).startAsThread();
 		}
 	}
 	
